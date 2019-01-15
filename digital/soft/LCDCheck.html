@@ -1,0 +1,31 @@
+﻿<html>
+<head><title>ドット抜けチェッカ</title>
+</head>
+<body style="background-color:white;margin:0px;overflow:hidden" onClick="nextColor(1)" onDblClick="nextColor(1)" onContextmenu="nextColor(-1);return false">
+<div style="height:80px" onMouseOver="show()" id="stdout"></div>
+<div style="width:100%;height:100%;cursor:url('white.cur'),text" onMouseOver="deshow()" id="hiddenMouse"></div>
+<script language="JavaScript">
+color=["white","lime","cyan","blue","black","magenta","red","yellow"];
+index=0;
+colorChanger="<span style=\"display:inline-block; height:40px; width:40px; background-color:white\" onMouseOver=\"changeColor(0)\"></span><span style=\"display:inline-block; height:40px; width:40px; background-color:lime\" onMouseOver=\"changeColor(1)\"></span><span style=\"display:inline-block; height:40px; width:40px; background-color:cyan\" onMouseOver=\"changeColor(2)\"></span><span style=\"display:inline-block; height:40px; width:40px; background-color:blue\" onMouseOver=\"changeColor(3)\"></span><span style=\"display:inline-block; height:40px; width:40px; background-color:black\" onMouseOver=\"changeColor(4)\"></span><span style=\"display:inline-block; height:40px; width:40px; background-color:magenta\" onMouseOver=\"changeColor(5)\"></span><span style=\"display:inline-block; height:40px; width:40px; background-color:red\" onMouseOver=\"changeColor(6)\"></span><span style=\"display:inline-block; height:40px; width:40px; background-color:yellow\" onMouseOver=\"changeColor(7)\"></span>"
+function nextColor(n){
+	index+=n;
+	index+=color.length;
+	index%=color.length;
+	document.body.style.backgroundColor=color[index];
+	document.getElementById("hiddenMouse").style.cursor="url('"+color[index]+".cur'),text";
+}
+function changeColor(n){
+	index=n;
+	document.body.style.backgroundColor=color[index];
+	document.getElementById("hiddenMouse").style.cursor="url('"+color[index]+".cur'),text";
+}
+function show(){
+	document.getElementById("stdout").innerHTML=colorChanger;
+}
+function deshow(){
+	document.getElementById("stdout").innerHTML="";
+}
+</script>
+</body>
+</html>

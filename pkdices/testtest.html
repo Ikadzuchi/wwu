@@ -1,0 +1,405 @@
+﻿<html>
+<head>
+<title>WentWayUp -ポケモン図鑑(英)-</title>
+<STYLE type="text/css"> <!--
+span{ font-family:"Doulos SIL","Lucida Sans Unicode"}
+td.phon{ font-family:"Doulos SIL","Lucida Sans Unicode"}
+--></STYLE>
+<head/>
+<body>
+<h1>ポケモン図鑑(英) JavaScriptバージョン</h1>
+<!-- ◆番号順◆　<a href="jsdexe_a.html">アルファベット順</a> -->
+<a href="jsdexe_n.html">番号順</a>　◆アルファベット順◆
+<br><br>
+charactor code : UTF-8<br>
+色々変な文字使ってるので正しく表示されないかも。<br>
+「Doulos SIL」フォント推奨。<br>
+<a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=IPAhome">SILのサイト</a>から無料で入手可能。<br>
+<br>
+履歴：<br>
+<div STYLE="font-size:60%;width:auto;height: 100px; overflow:auto;">
+12.2:追加・～251CELEBI(途中)、スクリプト改良、発音記号の文字を大きく<br>
+11.24:追加・～214HERACROSS(途中)、スクリプト改良<br>
+9.28:追加・～160FERALIGATR(発音以外)<br>
+9.25:JavaScript化<br>
+2006.4.2:追加・～100VOLTORB(発音以外)<br>
+9.28:追加・～43ODDISH<br>
+7.23:追加・～38NINETALES<br>
+5.7:フォント修正。<br>
+2005.5.4:製作開始・～22FEARROW<br>
+<br><br><br><br>
+</div>
+<br>
+凡例<br>
+基本的には日本語版と同じ。訳の記述を()から{}に変更。<br>
+単語{品詞 ; 訳}<br>
+訳の「{-}」は語調を整える為の意味の無い発音。<br>
+語源の「*」はスペルがもじってある(発音は同じ)ことを示す。<br>
+発音欄の「*」は発音注意<br>
+「逆成」とは、進化後の名前が先にあって、そこから進化前の名前を取ったということ。「逆成」の本来の意味と違う気もする。<br>
+較：日本名との比較。書いている途中で基準の統一が取れていない。あまり当てにならない。<br>
+・同…全く同じ<br>
+・訳…訳しただけor訳に+α<br>
+・√…日本名を語源にしている<br>
+・似…ニュアンスは似ている<br>
+・+…日本名(の一部)+α<br>
+・異…違う<br>
+<br>
+まだ途中なので色々不都合があるかも。<br>
+
+
+
+<script language="JavaScript"><!--
+
+poke=new Array();
+
+
+i=0;
+i++;poke[i]=new Array("1","フシギダネ","BALBASAUR","bʌ́lbəsɔ̀ːr","bulb{球根} + a{-}+ saur{恐竜語尾。トカゲの意}","球根竜","異","恐竜…?")
+i++;poke[i]=new Array("2","フシギソウ","IVYSAUR","ɑ́ivisɔ̀ːr","ivy{ツタ}+saur","蔦竜","異","&nbsp;")
+i++;poke[i]=new Array("3","フシギバナ","VENUSAUR","víːnəsɔ̀ːr","Venus{ロ神・春と花園の女神。後にギ神の愛と美の女神Aphroditeと同一視された}+saur","花乙女竜","異","ビーナスには見えない")
+i++;poke[i]=new Array("4","ヒトカゲ","CHARMANDER","ʧɑ́ːrməndəːr","char(coal){炭}+salamander{サラマンダー(火中に住む伝説のトカゲ)}","炭火竜","似","進化前なのに強そう")
+i++;poke[i]=new Array("5","リザード","CHARMELEON","ʧɑːrmíːliən","char(coal){炭}+chameleon{カメレオン}","炭レオン","似","&nbsp;")
+i++;poke[i]=new Array("6","リザードン","CHARIZARD","ʧɑ́rizəːd","char(coal){炭}+lizard{トカゲ}","炭蜥蜴","似","進化するとともに弱そうになるのは気のせい?")
+i++;poke[i]=new Array("7","ゼニガメ","SQUIRTLE","skwə́ːtl","squirt{噴出する,水鉄砲}+turtle{海亀}","プシュー亀","異","&nbsp;")
+i++;poke[i]=new Array("8","カメール","WARTORTLE","wɔ́ːrtəːtl","water*?+war?+turtle","水戦亀","異","&nbsp;")
+i++;poke[i]=new Array("9","カメックス","BLASTOISE","*blǽstɔiz","blast{水・空気などを強く吹き付ける}+tortois{陸亀}","噴亀","異","陸亀になった。")
+i++;poke[i]=new Array("10","キャタピー","CATERPIE","kǽtərpi","caterpillar{イモムシ}から","青虫ちゃん","同","&nbsp;")
+i++;poke[i]=new Array("11","トランセル","METAPOD","métəpɑ̀d","meta-{変化,超}+pod{鞘}","変鞘","似","&nbsp;")
+i++;poke[i]=new Array("12","バタフリー","BUTTERFREE","bʌ́tərfrìː","butterfly+free","自由蝶","同","&nbsp;")
+i++;poke[i]=new Array("13","ビードル","WEEDLE","wíːdl","wee{ちっぽけな}+needle{針}","小針","異","針、でかいって。")
+i++;poke[i]=new Array("14","コクーン","KAKUNA","kəkúːnə","cocoonから","&nbsp;","√","&nbsp;")
+i++;poke[i]=new Array("15","スピアー","BEEDRILL","bíːdril","bee+drill","蜂ドリル","異","&nbsp;")
+i++;poke[i]=new Array("16","ポッポ","PIDGEY","píʤi","pigeon*から","小鳩ちゃん","異","&nbsp;")
+i++;poke[i]=new Array("17","ピジョン","PIDGEOTTO","piʤiɔ́tou","ピジョットの日本名から","&nbsp;","√","&nbsp;")
+i++;poke[i]=new Array("18","ピジョット","PIDGEOT","píʤiɔ̀t","日本名から","&nbsp;","√","&nbsp;")
+i++;poke[i]=new Array("19","コラッタ","RATTATA","rǽtətə","日本名から","&nbsp;","√","&nbsp;")
+i++;poke[i]=new Array("20","ラッタ","RATICATE","rǽtikèit/-kit","masticate{咀嚼する} or rat + -ic{～性の} + -ate{動詞・動名詞語尾}","咀嚼鼠","+","&nbsp;")
+i++;poke[i]=new Array("21","オニスズメ","SPEAROW","spíərou","spear{槍} + sparrow*{雀}","槍雀","異","&nbsp;")
+i++;poke[i]=new Array("22","オニドリル","FEAROW","fíərou","fear{恐怖} + sparrow*","恐雀","異","&nbsp;")
+i++;poke[i]=new Array("23","アーボ","EKANS","ɪ́kənz","snake{蛇}の逆読み","びへ","訳","&nbsp;")
+i++;poke[i]=new Array("24","アーボック","ARBOK","ɑ́rbɑk","日本名*","&nbsp;","同","ARBOCでは読みにくいのだろうか")
+i++;poke[i]=new Array("25","ピカチュウ","PIKACHU","pɪ́kəʧù","日本名","&nbsp;","同","世界共通")
+i++;poke[i]=new Array("26","ライチュウ","RAICHU","rɑ́ɪʧu","日本名","&nbsp;","同","ピカチュウにつられて世界共通")
+i++;poke[i]=new Array("27","サンド","SANDSHREW","sǽndʃruː","sand{砂} + shrew{トガリネズミ}","砂鼠","+","さすがにただの「砂」という名前にはならなかった")
+i++;poke[i]=new Array("28","サンドパン","SANDSLASH","sǽndsləʃ","sand{砂} + slash{切りつける}","砂斬","+","&nbsp;")
+i++;poke[i]=new Array("29","ニドラン♀","NIDORAN♀","nɪ́dərən(female)","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("30","ニドリーナ","NIDORINA","nɪ̀dəríːnə","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("31","ニドクイン","NIDOQUEEN","nɪ́dəkwiːn","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("32","ニドラン♂","NIDORAN♂","nɪ́dərən(male)","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("33","ニドリーノ","NIDORINO","nɪ̀dəríːno","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("34","ニドキング","NIDOKING","nɪ́dəkɪŋ","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("35","ピッピ","CLEFAIRY","klɛ́fɛərɪ","? + fairy{妖精}","&nbsp;","似","&nbsp;")
+i++;poke[i]=new Array("36","ピクシー","CLEFABLE","klɛ́fe(ɪ)bl","? + fable{おとぎ話}","&nbsp;","似","&nbsp;")
+i++;poke[i]=new Array("37","ロコン","VULPIX","vʌ́lpɪks","vulpes{ラ : 狐} + six?","六狐","似","子狐座はVulpecula")
+i++;poke[i]=new Array("38","キュウコン","NINETALES","nɑ́inteɪlz","nine + tale{伝説} × tail{尾}","九尾伝説","訳","&nbsp;")
+i++;poke[i]=new Array("39","プリン","JIGGLYPUFF","ʤíglipʌ̀f","jiggly{a ; 女性が胸を揺すり性的興味をそそる} + puff{ふくれたもの}","ぷるぷるパフ","似","&nbsp;")
+i++;poke[i]=new Array("40","プクリン","WIGGLYTUFF","wíglitʌ̀f","wiggly{a ; 体をくねらす} + tough{タフな}?","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("41","ズバット","ZUBAT","zúːbæt","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("42","ゴルバット","GOLBAT","góulbæt","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("43","ナゾノクサ","ODDISH","ɑ́diʃ","odd{奇妙な} + radish{ラディッシュ,ハツカ大根}","奇怪根","似","&nbsp;")
+i++;poke[i]=new Array("44","クサイハナ","GLOOM","","gloom{暗闇,憂鬱}","憂鬱","異","&nbsp;")
+i++;poke[i]=new Array("45","ラフレシア","VILEPLUME","","vile{不潔な} + plume{羽根飾り,噴水状噴流}","　","異","　")
+i++;poke[i]=new Array("46","パラス","PARAS","","日本名","寄","同","　")
+i++;poke[i]=new Array("47","パラセクト","PARASECT","","日本名","寄虫","同","　")
+i++;poke[i]=new Array("48","コンパン","VENONAT","","venom{毒素} + gnat*{ブヨ}","毒虫","異","　")
+i++;poke[i]=new Array("49","モルフォン","VENOMOTH","","venom{毒素} + moth{蛾}","毒蛾","異","　")
+i++;poke[i]=new Array("50","ディグダ","DIGLETT","","dig{掘る} + -let*{指小辞}?","掘り掘り","似","")
+i++;poke[i]=new Array("51","ダグトリオ","DUGTRIO","","dug<dig{掘る} + trio{3人組,3重奏}","","同","")
+i++;poke[i]=new Array("52","ニャース","MEOWTH","","meow{猫の鳴き声の擬音語} + ?","","訳","")
+i++;poke[i]=new Array("53","ペルシアン","PERSIAN","","Persian cat{ペルシャ猫}から","","同","")
+i++;poke[i]=new Array("54","コダック","PSYDUCK","","psycho{心理の} + duck{アヒル}","","","")
+i++;poke[i]=new Array("55","ゴルダック","GOLDUCK","","日本名","","同","")
+i++;poke[i]=new Array("56","マンキー","MANKEY","","日本名","","同","")
+i++;poke[i]=new Array("57","オコリザル","PRIMEAPE","","prime{全盛} + primate{類人猿} + ape{猿}","","異","")
+i++;poke[i]=new Array("58","ガーディ","GROWLITHE","","growl{吠える} + ?","","異","")
+i++;poke[i]=new Array("59","ウインディ","ARCANINE","","arcane{神秘の} + canine{犬}","","異","伝説っぽい。")
+i++;poke[i]=new Array("60","ニョロモ","POLIWAG","","pollowog*{英方言 : オタマジャクシ}","","異","")
+i++;poke[i]=new Array("61","ニョロゾ","POLIWHIRL","","pollowog + whirl{渦}","","異","")
+i++;poke[i]=new Array("62","ニョロボン","POLIWRATH","","pollowog + wrath{力}","","異","")
+i++;poke[i]=new Array("63","ケーシィ","ABRA","","abracadabra(呪文)から","","異","")
+i++;poke[i]=new Array("64","ユンゲラー","KADABRA","","abracadabra(呪文)から","","異","")
+i++;poke[i]=new Array("65","フーディン","ALAKAZAM","","alakazamは呪文らしいが詳細不明","","異","")
+i++;poke[i]=new Array("66","ワンリキー","MACHOP","","macho{筋肉質の男} + chop{チョップ・刻む}","","異","")
+i++;poke[i]=new Array("67","ゴーリキー","MACHOKE","","macho + choke{詰まる}","","異","")
+i++;poke[i]=new Array("68","カイリキー","MACHAMP","","macho + champ<champion","","異","")
+i++;poke[i]=new Array("69","マダツボミ","BELLSPROUT","","bell + sprout{芽生え}","鈴萌","異","")
+i++;poke[i]=new Array("70","ウツドン","WEEPINBELL","","weeping<weep{(涙など液体を)流す} + bell","分泌鐘","異","")
+i++;poke[i]=new Array("71","ウツボット","VICTREEBEL","","victory*{勝利}? + victim{犠牲}? + tree{木}? + bell*","勝利鐘","異","")
+i++;poke[i]=new Array("72","メノクラゲ","TENTACOOL","","tantacle{触手} + cool{冷たい・クールな}","冷触手","異","")
+i++;poke[i]=new Array("73","ドククラゲ","TENTACRUEL","","tentacle + cruel{残虐な}","虐触手","異","")
+i++;poke[i]=new Array("74","イシツブテ","GEODUDE","","geo-{地球の} + dude{野郎}","地面野郎","異","")
+i++;poke[i]=new Array("75","ゴローン","GRAVELER","","gravel{砂利} + er{<a href=\"#er\">※</a>}","砂利野郎","異","")
+i++;poke[i]=new Array("76","ゴローニャ","GOLEM","","golem{ゴーレム(神話の石人形)}","","異","")
+i++;poke[i]=new Array("77","ポニータ","PONYTA","","日本名","","同","")
+i++;poke[i]=new Array("78","ギャロップ","RAPIDASH","","rapid{高速な} + dash{ダッシュ}","","異","シーギャロップ(FR,LG)はSEAGALLOP")
+i++;poke[i]=new Array("79","ヤドン","SLOWPOKE","","slow{遅い} + poke{やつ}","ノロマ野郎","異","")
+i++;poke[i]=new Array("80","ヤドラン","SLOWBRO","","slow + bro<brother{仲間}","ノロマ野郎","異","")
+i++;poke[i]=new Array("81","コイル","MAGNEMITE","","magnet{磁石} + mite{小さいもの・ダニ}","小磁","異","")
+i++;poke[i]=new Array("82","レアコイル","MAGNETON","","magnet + ton{トン・大量}","大磁","異","")
+i++;poke[i]=new Array("83","カモネギ","FARFETCH'D","","far-fetched*{取ってつけたような}<far{遠く} + fetched<fetch{取ってくる}","","異","「'」を使う唯一の名前")
+i++;poke[i]=new Array("84","ドードー","DODUO","","dodo{ドードー} + duo{二重奏}","","似","")
+i++;poke[i]=new Array("85","ドードリオ","DODRIO","","日本名","","同","")
+i++;poke[i]=new Array("86","パウワウ","SEEL","","seal*{アザラシ}","","異","")
+i++;poke[i]=new Array("87","ジュゴン","DEWGONG","","dew{露}? + dugong*{ジュゴン}","","√","")
+i++;poke[i]=new Array("88","ベトベター","GRIMER","","grime{汚れ・垢} + er{<a href=\"#er\">※</a>}","","似","")
+i++;poke[i]=new Array("89","ベトベトン","MUK","","muck*{べとべとする汚れ・腐葉土}","","似","")
+i++;poke[i]=new Array("90","シェルダー","SHELLDER","","日本名","","同","")
+i++;poke[i]=new Array("91","パルシェン","CLOYSTER","","cloister{修道院・修道院に閉じ込める} + oyster{牡蠣}","","異","")
+i++;poke[i]=new Array("92","ゴース","GASTLY","","ghastly*{恐ろしい} + gas{ガス}","","異","")
+i++;poke[i]=new Array("93","ゴースト","HAUNTER","","haunt{(お化けが)出る} + er{<a href=\"#er\">※</a>}","","異","")
+i++;poke[i]=new Array("94","ゲンガー","GENGAR","","日本名から","","√","ちなみにゲンガーはg&auml;nger")
+i++;poke[i]=new Array("95","イワーク","ONIX","","onyx*{オニキス・縞瑪瑙}","縞瑪瑙","異","")
+i++;poke[i]=new Array("96","スリープ","DROWZEE","","drowsy*{眠い}","","似","")
+i++;poke[i]=new Array("97","スリーパー","HYPNO","","hypno-{催眠の}","","似","")
+i++;poke[i]=new Array("98","クラブ","KRABBY","","crab{蟹} + 指小辞","","+","")
+i++;poke[i]=new Array("99","キングラー","KINGLER","","日本名","","同","")
+
+
+i++;poke[i]=new Array("100","ビリリダマ","VOLTORB","","volt{ボルト(電圧の単位)} + orb{玉}","","似","")
+i++;poke[i]=new Array("101","マルマイン","ELECTRODE","","electrode{電極}そのまま","電極","異","珍しい単語そのままの例。")
+i++;poke[i]=new Array("102","タマタマ","EXEGGCUTE","","execute{実行する・処刑する}? + egg","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("103","ナッシー","EXEGGUTOR","","execute{実行する・処刑する}?+ egg + er{<a href=\"#er\">※</a>}","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("104","カラカラ","CUBONE","","cue{ビリヤードの突き棒}? + bone{骨}","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("105","ガラガラ","MAROWAK","","marrow{(骨の)髄} + whack{強打}","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("106","サワムラー","HITMONLEE","","hit + monster? + Bruce・李<span>[Lee]</span>","&nbsp;","似","&nbsp;")
+i++;poke[i]=new Array("107","エビワラー","HITMONCHAN","","hit + monster? + Jackie・陳<span>[Chan]</span>","&nbsp;","似","中国語はchanと書いてチェンと読む。")
+i++;poke[i]=new Array("108","ベロリンガ","LICKITUNG","","lick{舐める} + i{-} + tongue<span>[tʌ́ŋ]</span>{舌}","&nbsp;","似","&nbsp;")
+i++;poke[i]=new Array("109","ドガース","KOFFING","","cough<span>[kɔf]</span>{咳をする} + ing","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("110","マタドガス","WEEZING","","wheeze*{ゼーゼー言う} + ing","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("111","サイホーン","RHYHORN","","rhinoceros<span>[rainɑ́sərəs]</span>{犀<span>[サイ]</span>} + horn{角}","&nbsp;","訳","ちなみにrhinocerosはrhino{鼻}+ceros{角}の意。")
+i++;poke[i]=new Array("112","サイドン","RHYDON","","rhinoceros<span>[rainɑ́sərəs]</span>{犀<span>[サイ]</span>} + ドン{日本名から?}","&nbsp;","訳","&nbsp;")
+i++;poke[i]=new Array("113","ラッキー","CHANSEY","","chance*{好機・幸運} + 形容詞語尾","&nbsp;","似","本来のchancyには{幸運の}という意味もあるが、{当てにならない}という意味が一般的")
+i++;poke[i]=new Array("114","モンジャラ","TANGELA","","tangleから","&nbsp;","似","&nbsp;")
+i++;poke[i]=new Array("115","ガルーラ","KANGASKHAN","","kangaroo + Khan{中国・モンゴルの支配者の称号。(参)ジンギスカン}","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("116","タッツー","HORSEA","","horse{馬} + sea{海} < seahorse{タツノオトシゴ}","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("117","シードラ","SEADRA","","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("118","トサキント","GOLDEEN","","goldfish{金魚}から","キーン","異","&nbsp;")
+i++;poke[i]=new Array("119","アズマオウ","SEAKING","","sea{海} + king{王}","海王","異","&nbsp;")
+i++;poke[i]=new Array("120","ヒトデマン","STARYU","","star{星} + you*{あなた}","&nbsp;","異","スターミー→meから逆成")
+i++;poke[i]=new Array("121","スターミー","STARMIE","","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("122","バリヤード","MR.MIME","","Mr. + mime{(パント)マイム}","&nbsp;","異","唯一「.」を使う名前。プロポーショナルフォントだと非常に見づらい。")
+i++;poke[i]=new Array("123","ストライク","SCYTHER","","scythe{大鎌} + er{<a href=\"#er\">※</a>}","鎌野郎","異","&nbsp;")
+i++;poke[i]=new Array("124","ルージュラ","JYNX","","jinx*{不運}","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("125","エレブー","ELECTABUZZ","","electro-{電気の} + a{-} + buzz{ブンブンいう音}","&nbsp;","訳","&nbsp;")
+i++;poke[i]=new Array("126","ブーバー","MAGMAR","","magma{マグマ} + er*?{<a href=\"#er\">※</a>}","溶岩野郎","異","&nbsp;")
+i++;poke[i]=new Array("127","カイロス","PINSIR","","pincers*{ペンチ}","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("128","ケンタロス","TAUROS","","centaur(os){ケンタウロス}から","&nbsp;","√","&nbsp;")
+i++;poke[i]=new Array("129","コイキング","MAGIKARP","","magic* + carp*{鯉}","魔鯉","異","&nbsp;")
+i++;poke[i]=new Array("130","ギャラドス","GYARADOS","","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("131","ラプラス","LAPRAS","","日本名*","&nbsp;","同","(ピエール・シモン・)ラプラスのスペルはLaplace。")
+i++;poke[i]=new Array("132","メタモン","DITTO","","ditto{同上}","同上","異","珍しい単語そのまま。")
+i++;poke[i]=new Array("133","イーブイ","EEVEE","","EV*","&nbsp;","訳","&nbsp;")
+i++;poke[i]=new Array("134","シャワーズ","VAPOREON","","vapor<span>[véipəː]</span>{蒸気} + eon{無限の時}? or -ion*{～な状態}?","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("135","サンダース","JOLTEON","","jolt{衝撃} + eon{無限の時}? or -ion*{～な状態}?","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("136","ブースター","FLAREON","","flare{炎} + eon{無限の時}? or -ion*{～な状態}?","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("137","ポリゴン","PORIGON","","日本名*","&nbsp;","同","本来ポリゴンの綴りはpolygon")
+i++;poke[i]=new Array("138","オムナイト","OMANYTE","","日本名*","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("139","オムスター","OMASTAR","","日本名*","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("140","カブト","KABUTO","kəbúːtoʊ","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("141","カブトプス","KABUTOPS","kəbúːtops","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("142","プテラ","AERODACTYL","","aero-<span>[eərou]</span>{空気の} + pterodactyl<span>[tèrədǽktəl]</span>{翼竜}","&nbsp;","√","ちなみにpterodactylはptero{羽} + dactyl{指}の意")
+i++;poke[i]=new Array("143","カビゴン","SNORLAX","","snore{いびき} + lax{弛緩}","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("144","フリーザー","ARTICUNO","","arctic*{北極の} + uno{スペ ; 1}","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("145","サンダー","ZAPDOS","","zap{素早い攻撃や動作} + dos{スペ ; 2}","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("146","ファイヤー","MOLTRES","","molten &lt; melt{融ける} + tres{スペ ; 3}","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("147","ミニリュウ","DRATINI","","dragon + tiny*<span><span>[tɑ́ɪni]</span></span>","小竜","訳","&nbsp;")
+i++;poke[i]=new Array("148","ハクリュー","DRAGONAIR","","dragon + air{空気}?","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("149","カイリュー","DRAGONITE","","dragon + knight*{騎士}","騎士竜","","&nbsp;")
+i++;poke[i]=new Array("150","ミュウツー","MEWTWO","","日本名*","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("151","ミュウ","MEW","","日本名*","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("152","チコリータ","CHIKORITA","","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("153","ベイリーフ","BAYLEEF","","日本名*","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("154","メガニウム","MEGANIUM","","日本名","&nbsp;","同","&nbsp;")
+i++;poke[i]=new Array("155","ヒノアラシ","CYNDAQUIL","","cinder*{灰} + quill*{羽根}","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("156","マグマラシ","QUILAVA","","quill{羽根} + lava{溶岩}","&nbsp;","異","&nbsp;")
+i++;poke[i]=new Array("157","バクフーン","TYPHLOSION","","typhoon{台風} + explosion{爆発}","&nbsp;","訳","&nbsp;")
+i++;poke[i]=new Array("158","ワニノコ","TOTODILE","","tot{チビ} + o{-} + crocodile{ワニ}","&nbsp;","似","")
+i++;poke[i]=new Array("159","アリゲイツ","CROCONAW","","crocodile{ワニ} + gnaw<span>[nɔː]</span>{齧る}","&nbsp;","異","日本ではアリゲーター、英語ではクロコダイル。")
+i++;poke[i]=new Array("160","オーダイル","FERALIGATR","","feral{野生の・野蛮な} + alligator{ワニ}","&nbsp;","異","日本ではクロコダイル、英語ではアリゲーター。")
+i++;poke[i]=new Array("161","オタチ","SENTRET","","sentry{見張り} + ferret{シロイタチ}","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("162","オオタチ","FURRET","","fur{毛皮} + ferret{シロイタチ}","毛レット","","&nbsp;")
+i++;poke[i]=new Array("163","ホーホー","HOOTHOOT","","hoot-hoot{擬声 ; ホーホー}","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("164","ヨルノズク","NOCTOWL","","noct-{夜の} + owl{フクロウ}","夜梟","","&nbsp;")
+i++;poke[i]=new Array("165","レディバ","LEDYBA","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("166","レディアン","LEDIAN","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("167","イトマル","SPINARAK","","spin{(クモが巣を)紡ぐ} + arachno-{クモの}","紡績蜘蛛","","&nbsp;")
+i++;poke[i]=new Array("168","アリアドス","ARIADOS","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("169","クロバット","CROBAT","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("170","チョンチー","CHINCHOU","","提灯から","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("171","ランターン","LANTURN","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("172","ピチュー","PICHU","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("173","ピィ","CLEFFA","","CREFABLEから逆成","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("174","ププリン","IGGLYBUFF","","JIGGLYPUFFから逆成","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("175","トゲピー","TOGEPI","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("176","トゲチック","TOGETIC","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("177","ネイティ","NATU","","native (american)からか","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("178","ネイティオ","XATU","","NATU + X{未知のもの}","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("179","メリープ","MAREEP","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("180","モココ","FLAAFFY","","fluffy{ふわふわの}","ふわーん","","&nbsp;")
+i++;poke[i]=new Array("181","デンリュウ","AMPHAROS","","ampere{アンペア}? + Pharos(世界七不思議のひとつの巨大な灯台)","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("182","キレイハナ","BELLOSSOM","","belle{美しいもの} + blossom{花}","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("183","マリル","MARILL","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("184","マリルリ","AZUMARILL","","azure{空色} + MARILL","空マリル","","&nbsp;")
+i++;poke[i]=new Array("185","ウソッキー","SUDOWOODO","","pseudo{偽の} + wood{木} + o{-}","偽木","","&nbsp;")
+i++;poke[i]=new Array("186","ニョロトノ","POLITOED","","polliwog{おたまじゃくし} + toad*{蛙}","オタマ蛙","","&nbsp;")
+i++;poke[i]=new Array("187","ハネッコ","HOPPIP","","hop{跳ぶ} + pip{種}","&nbsp;","","三段跳びはhop-skip(step)-jump")
+i++;poke[i]=new Array("188","ポポッコ","SKIPLOOM","","skip{跳ぶ} + plume{羽根飾り}","&nbsp;","","三段跳びはhop-skip(step)-jump")
+i++;poke[i]=new Array("189","ワタッコ","JUMPLUFF","","jump{跳ぶ} + ?","&nbsp;","","三段跳びはhop-skip(step)-jump")
+i++;poke[i]=new Array("190","エイパム","AIPOM","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("191","ヒマナッツ","SUNKERN","","sun + kernel{種子}","太陽種","","&nbsp;")
+i++;poke[i]=new Array("192","キマワリ","SUNFLORA","","sun + Flora{花・豊穣の女神}","太陽花","","&nbsp;")
+i++;poke[i]=new Array("193","ヤンヤンマ","YANMA","","ヤンマ","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("194","ウパー","WOOPER","","wooper looperから","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("195","ヌオー","QUAGSIRE","","quagmire{沼地} + ?","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("196","エーフィ","ESPEON","","ESP{エスパー} + aeon*{永劫} or -ion*{英接尾 ; ～な状態、～の動作}","超能力野郎","","&nbsp;")
+i++;poke[i]=new Array("197","ブラッキー","UMBREON","","umbra{英<ラ ; 影} + aeon*{永劫} or -ion*{英接尾 ; ～な状態、～の動作}","影野郎","","&nbsp;")
+i++;poke[i]=new Array("198","ヤミカラス","MURKROW","","murk{闇} + crow*{カラス}","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("199","ヤドキング","SLOWKING","","slow + king","ノロマ王","","&nbsp;")
+i++;poke[i]=new Array("200","ムウマ","MISGREAVUS","","mischivous*{いたずらっ気のある、有害な} + dream","夢邪鬼","","&nbsp;")
+i++;poke[i]=new Array("201","アンノーン","UNOWN","","unknownから","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("202","ソーナンス","WOBBUFFET","","wobble{揺れる}? + buffet{打撃}","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("203","キリンリキ","GIRAFARIG","","giraffe{キリン}の回文化","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("204","クヌギダマ","PINECO","","pinecone{松かさ}から","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("205","フォレトス","FORRETRESS","","forest*{森} + fortress{要塞}","森林要塞","","&nbsp;")
+i++;poke[i]=new Array("206","ノコッチ","DUNSPARCE","","dunce{まぬけ} + sparse{まばらな}?","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("207","グライガー","GLIGAR","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("208","ハガネール","STEELIX","","steel{鋼} + ONIX","鋼ックス","","&nbsp;")
+i++;poke[i]=new Array("209","ブルー","SNUBBULL","","snub{しし鼻の} + bulldog","鼻ブル","","&nbsp;")
+i++;poke[i]=new Array("210","グランブル","GRANBULL","","grand{英・仏 ; 偉大な} + bulldog","大ブル","","&nbsp;")
+i++;poke[i]=new Array("211","ハリーセン","QWILFISH","","quill{羽軸、(ヤマアラシの)針} + fish","針魚","","&nbsp;")
+i++;poke[i]=new Array("212","ハッサム","SCIZOR","","scissor*{ハサミ}","ハサミ","","&nbsp;")
+i++;poke[i]=new Array("213","ツボツボ","SHUCKLE","","shuck{殻} + -cle{英接尾 ; 小～}","殻っち","","&nbsp;")
+i++;poke[i]=new Array("214","ヘラクロス","HERACROSS","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("215","ニューラ","SNEASEL","","sneak{こそこそする} + weasel{イタチ}","忍鼬","","猫じゃないの?")
+i++;poke[i]=new Array("216","ヒメグマ","TEDDIURSA","","teddy bear + ursa{ラ ; 熊}","テディ熊","","&nbsp;")
+i++;poke[i]=new Array("217","リングマ","URSARING","","ursa{ラ ; 熊} + ring","熊輪","","&nbsp;")
+i++;poke[i]=new Array("218","マグマッグ","SLUGMA","","slug{ナメクジ} + magma","マグマクジ","","&nbsp;")
+i++;poke[i]=new Array("219","マグカルゴ","MAGCARGO","","magma + secargot<span>[ɛskargo]</span>{仏 ; カタツムリ}","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("220","ウリムー","SWINUB","","swine{豚、猪} + nub{こぶ}","瘤猪","","&nbsp;")
+i++;poke[i]=new Array("221","イノムー","PILOSWINE","","pilose{毛むくじゃらの} + swine{豚、猪}","毛猪","","&nbsp;")
+i++;poke[i]=new Array("222","サニーゴ","CORSOLA","","coral{珊瑚} + solar{太陽の} or sol{ラ ; 太陽}","太陽珊瑚","","&nbsp;")
+i++;poke[i]=new Array("223","テッポウオ","REMORAID","","remora{コバンザメ} + raid{襲撃}","襲撃鮫","","&nbsp;")
+i++;poke[i]=new Array("224","オクタン","OCTILLERY","","octpus{蛸} + artillery{大砲}","蛸砲","","&nbsp;")
+
+i++;poke[i]=new Array("225","デリバード","DELIBIRD","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("226","マンタイン","MANTINE","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("227","エアームド","SKARMORY","","sky{空} + armory{武器庫}","天空武器庫","","&nbsp;")
+i++;poke[i]=new Array("228","デルビル","HOUNDOUR","","hound{猟犬} + dour{陰気な}","陰犬","","&nbsp;")
+i++;poke[i]=new Array("229","ヘルガー","HOUNDOOM","","hound{猟犬} + doom{破滅の運命}","破滅犬","","&nbsp;")
+i++;poke[i]=new Array("230","キングドラ","KINGDRA","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("231","ゴマゾウ","PHANPY","","elephant{象}から","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("232","ドンファン","DONPHAN","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("233","ポリゴン2","PORYGON2","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("234","オドシシ","STANTLER","","stunt{曲芸}? + antler{枝角}","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("235","ドーブル","SMEARGLE","","smear{塗りたくる} + beagle{ビーグル犬}","&nbsp;","","&nbsp;")
+
+i++;poke[i]=new Array("236","バルキー","TYROGUE","","Tyr{北欧神話 ; 戦いと勝利の神} + rogue{悪党}","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("237","カポエラー","HITMONTOP","","hit + monster? + top{コマ}","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("238","ムチュール","SMOOCHUM","","smooch{チューする} + chum{親友}?","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("239","エレキッド","ELEKID","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("240","ブビィ","MAGBY","","magma + baby","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("241","ミルタンク","MILTANK","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("242","ハピナス","BLISSEY","","bliss{至福} + -ey{<a href=\"#ey\">※</a>}","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("243","ライコウ","RAIKOU","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("244","エンテイ","ENTEI","","日本名","&nbsp;","","&nbsp;")
+
+i++;poke[i]=new Array("245","スイクン","SUICUNE","","日本名*","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("246","ヨーギラス","LARVITAR","","larva{幼虫} + i{-} + Tartar{タタール人、乱暴者}?","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("247","サナギラス","PUPITAR","","pupa{さなぎ} + i{-} + Tartar{タタール人、乱暴者}?","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("248","バンギラス","TYRANITAR","","tyranous{暴虐な}など + i{-} + Tartar{タタール人、乱暴者}?","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("249","ｔｅｓｔ：ルギア","LUGIA","","日本名","&nbsp;","","&nbsp;")
+i++;poke[i]=new Array("250","ホウオウ","HO-OH","","日本名","&nbsp;","","唯一「-」を使う名前")
+i++;poke[i]=new Array("251","セレビィ","CELEBI","","日本名","&nbsp;","","&nbsp;")
+
+/*
+i++;poke[i]=new Array("","","","","","","&nbsp;","","&nbsp;")
+*/
+
+for(i=252;i<387;i++){
+poke[i]=new Array(
+"xxx",
+"未",
+"未",
+"未",
+"未",
+"未",
+"未",
+"未"
+)
+}
+
+
+/*番号*/
+/*
+for(i=0;i<386;i+=10){
+	document.write("<a href=\"#"+i+"\">");
+	if(i%100==0)
+		document.write("["+i+"]");
+	else if(i%50==0)
+		document.write("<small>"+i+"</small>");
+	else
+		document.write("・");
+	document.write("</a>");
+}
+
+document.write("<table BORDER=1 BORDERCOLOR=\"#000000\" CELLSPACING=0><tr><td bgcolor=C0FFEE>名</td><td bgcolor=C0FFEE>発音(推定)</td><td bgcolor=C0FFEE>由来</td><td nowrap bgcolor=C0FFEE>意訳&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td bgcolor=C0FFEE>較</td><td bgcolor=C0FFEE>備考</td></tr>");
+for(i=1; i<387;i++){
+	document.write("<tr><td>");
+	if(i%10==0){
+	document.write("<a name=\""+i+"\">");
+	}
+	document.write("<small><small>"+poke[i][0]+"  "+poke[i][1]+"</small></small><br>"+poke[i][2]+"</td>");
+	document.write("<td class=phon><big>"+poke[i][3]+"</big></td>");
+	for(j=4;j<8;j++){
+		document.write("<td>"+poke[i][j]+"</td>");
+	}
+	document.write("</tr>");
+}
+document.write("</table>");
+*/
+/*名前*/
+
+
+function alpha(a,b){
+	if (a[2]<b[2])
+		return -1;
+	else if (a[2]>b[2])
+		return 1;
+	else 
+		return 0;
+}
+
+poke.sort(alpha);
+
+document.write("<table BORDER=1 BORDERCOLOR=\"#000000\" CELLSPACING=0><tr><td bgcolor=C0FFEE>名</td><td bgcolor=C0FFEE>発音(推定)</td><td bgcolor=C0FFEE>由来</td><td nowrap bgcolor=C0FFEE>意訳&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td bgcolor=C0FFEE>較</td><td bgcolor=C0FFEE>備考</td></tr>");
+for(i=1; i<386;i++){
+	document.write("<tr><td>");
+	document.write("<small><small>"+poke[i][1]+"</small></small><br>"+poke[i][2]+"</td>");
+	document.write("<td class=phon><big>"+poke[i][3]+"</big></td>")
+	for(j=4;j<8;j++){
+		document.write("<td>"+poke[i][j]+"</td>");
+	}
+	document.write("</tr>");
+}
+document.write("</table>");
+
+
+
+// --></script>
+
+<table border="1">
+<tr><td colspan="2">
+汎用語尾一覧
+</td></tr>
+<tr>
+<td>-er<a name="er"></td><td>名詞につけて「～の性質を持つもの」「～に関連するもの」を意味する。<br>形容詞につけて「～であるもの」を意味する</td>
+</tr>
+<tr>
+<td>-ey, -y<a name="ey"></td><td>名詞につけて「～の性質を持つ」「～に満ちた」を意味する。<br>名詞語尾</td>
+</tr>
+</table>
+
+</body>
+</html>
+

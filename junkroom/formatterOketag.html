@@ -1,0 +1,141 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>Formatter for TYPINGMANIA4 ββ</title>
+</head>
+
+<body>
+
+<!--
+'07.5/10 23:42:57
+忘れられた子じゃなかったようで何より。
+よほどサーバーに負荷でもかけない限り直リンクは全面的にOKですよ。
+-->
+
+<script language="JavaScript"><!--
+
+function replacecrlf(str){
+	crlf=String.fromCharCode(13,10);
+	cr=String.fromCharCode(13);
+	lf=String.fromCharCode(10);
+	
+	while (str.indexOf(crlf) >= 0){
+		str=str.replace(crlf,lf);
+	}
+	while (str.indexOf(cr) >= 0){
+		str=str.replace(cr,lf);
+	}
+	return str;
+}
+
+function makexml(lyr,rd,name,minute,dif){
+	crlf=String.fromCharCode(13,10);
+	cr=String.fromCharCode(13);
+	lf=String.fromCharCode(10);
+
+	lyr=replacecrlf(lyr);
+	rd=replacecrlf(rd);
+
+	splitLyric=lyr.split(lf);
+	splitRead=rd.split(lf);
+	splitInter=new Array;
+	maxNum=splitLyric.length;
+	
+	document.write("&lt;?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?&gt;<br />&lt;musicname&gt;"+ name + "&lt/musicname&gt;<br />&lt;saidaimondaisuu&gt;" + maxNum + "&lt;/saidaimondaisuu&gt;<br /><br />");
+	
+	document.write("&lt;nihongoword&gt;@&lt;/nihongoword&gt;<br />");
+	for(i=0;i<splitLyric.length;i++){
+		temp=splitLyric[i].split("]");
+		splitInter[i]=temp[0].substring(1,3)+temp[0].substring(4,6)+temp[0].substring(7,9)+"0";
+		splitLyric[i]=temp[1];
+		if(splitLyric[i]==""){
+			splitLyric[i]="@";
+		}
+		if(i!=(splitLyric.length-1)){
+			document.write("&lt;nihongoword&gt;"+splitLyric[i]+"&lt;/nihongoword&gt;<br />");
+		}
+	}
+	document.write("<br />");
+	document.write("&lt;word&gt;@&lt;/word&gt;<br />");
+	for(i=0;i<splitRead.length;i++){
+		if(splitRead[i]==""){
+			splitRead[i]="@";
+		}
+		document.write("&lt;word&gt;"+splitRead[i]+"&lt;/word&gt;<br />");
+	}
+	document.write("<br />");
+	if (minute==true){
+		for(i=0;i<splitInter.length;i++){
+			splitInter[i]=Math.floor(splitInter[i]/100000)*60000+splitInter[i]%100000;
+		}
+	}
+	if (dif==true){
+		for(i=splitInter.length-1;i>=1;i--){
+			splitInter[i]-=splitInter[i-1];
+		}
+	}
+
+	for(i=0;i<splitInter.length;i++){
+		document.write("&lt;interval&gt;"+splitInter[i]+"&lt;/interval&gt;<br />");
+	}
+	document.close();
+}
+
+
+//--></script>
+<h1 style="margin : 0">TYPINGMANIA4用 曲XML作成機 ββ</h1>
+<h2 style="margin : 0">～Compatible with OkeTag～</h2>
+
+'07.4/24-28 (c)Ikadzuchi-Squeak, All rights disclaimed.<br /><br />
+<FORM NAME="form1">
+曲名 : <INPUT NAME="songname"><br />
+<TEXTAREA NAME="lyric" ROWS=20 COLS=50></TEXTAREA><!-- 横幅の問題で見難い場合はCOLSの値を変えてください -->
+<TEXTAREA NAME="read" ROWS=20 COLS=50></TEXTAREA><!-- 同上 -->
+<br />
+<input type="submit" value="作成" onClick="makexml(document.form1.lyric.value,document.form1.read.value,document.form1.songname.value,1,1)" />
+</FORM>
+<br />
+※このXML作成機は<a href="http://www.vector.co.jp/soft/winnt/art/se300671.html">OkeTag</a>(Windowsフリーソフト)の使用を前提にしています。<br />
+汎用版は<a href="formatter.htm">こちら</a>。<br />
+<h2>使い方</h2>
+OkeTagを使ってタグ付き歌詞を作ります。<br />
+曲名、タグつき歌詞、読みを入れて、「作成」を押してください。<br />
+空行は「@」に置き換えられます。<br />
+表示されたものをメモ帳にコピペしてUTF-8保存します。<br />
+<br />
+書き方は以下のようにしてください。<br />
+<table border="1"><tr><td width="200">
+[歌詞1までの時間]歌詞1<br />
+[歌詞2までの時間]歌詞2<br />
+…<br />
+[歌詞nまでの時間]歌詞n<br />
+[歌詞n終了時間]<br />
+[曲終了時間]<br />
+</td>
+<td width="200">
+読み1<br />
+読み2<br />
+…<br />
+読みn<br />
+<font color="#888888">(空行)</font><br />
+<br />
+</td></tr></table>
+<br />
+<br />
+更新履歴:<br />
+'07.4/28 OkeTag専用として作成。<br />
+<br />
+不具合:<br />
+・firefoxだと結果を表示した画面からコピペができないっぽい。ページ保存するか諦めてＩＥを使うか。<br />
+・β1版で「Safari2.0/MacOS10.4.9環境ではタグが一瞬表示されるだけでうまく動かない」との情報あり。<br />
+　Macということで改行コード関連の問題の可能性が高いので、既に直っているかもしれませんがあいにく自分では確認できません。<br />
+<br />
+今後の予定 (予定は未定)<br />
+・今は目的のXMLを表示するHTMLファイルを出力してコピペさせてるけど、直接XMLを出力してページ保存で保存できるようにした方がいいかも。<br />
+<br />
+<b>xfk5hebiq</b>さん(何と読んだものか…)が同様のものを作っていらっしゃるようです。<br />
+<a href="http://arabia.milan.jp/tm/">TypingMania用XML自動生成システム</a><br />
+参考になりますね。いろいろ技術を盗んでみたいと思います。<br />
+</body>
+</html>

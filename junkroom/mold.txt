@@ -1,0 +1,8 @@
+M.O.L.D.
+
+int grafic[100][100]  previous grafic[100][100]
+int HintHolizontal[100][50] HintVertical[100][50]
+
+
+
+for a=0,

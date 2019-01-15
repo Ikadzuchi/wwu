@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>2進数変換機</title>
+</head>
+<body></body>
+<script language="JavaScript"><!--
+
+function bin (n){
+	m="";
+	while(n>=1){
+		if(n%2)
+			m="1"+m;
+		else 
+			m="0"+m;
+		n=Math.floor(n/2);
+	}
+	return m;
+}
+
+function calc(fObj){
+	fObj.output.value = bin(fObj.input.value);
+}
+
+// --></script>
+
+<h1>2進数変換機</h1>
+何の変哲もない「10進数→2進数」変換機。<br>
+学校でjpegエンコーダを作る為に必要なものを作るのに必要だったので製作。<br>
+
+<form>
+入力:<input type="text" name="input" size="20" value="" onChange="calc(this.form)">
+<br>出力:<input type="text" name="output" size="20" value="">
+</form>
+</html>

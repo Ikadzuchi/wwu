@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>n進数変換機</title>
+</head>
+<body>
+<script language="JavaScript"><!--
+
+
+function ToNShin (n,base,alpha){
+NoChar = new Array (0,1,2,3,4,5,6,7,8,9,"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+	if (base<=0)
+		return "Error!";
+	else {
+		if (n<0){
+			n*=-1;
+			sign="-";
+		}
+		else
+			sign="";
+		m="";
+		while(n>=1){
+		n=Math.floor(n);
+		fig=n%base;
+			if (base<=36&&alpha)
+				m=NoChar[fig]+m;
+			else
+				m="/"+fig+m;
+			n=n/base;
+		}
+		return sign+m;
+	}
+}
+
+function FromNShin (n,base){
+	m= new Array();
+	n=n.toUpperCase();
+	if(n.charAt(0)=="/"){
+		m=n.split("/")
+	}
+	else {
+		for (i=0;i<n.length;i++){
+			m[i]=n.charAt(i);
+		}
+	}
+}
+
+function calc(fObj){
+	number=fObj.input.value;
+	fObj.output.value = ToNShin(number,fObj.baseOut.value,fObj.alpha.checked);
+}
+
+flag = document.myFORM.myCHK.checked
+// --></script>
+
+<h1>n進数変換機</h1>
+<a href="bin.html">2進</a>よりは多少変哲のある「10進数→n進数」変換機です。<br>
+学校でjpegエンコーダーを作る気晴らしに作ったものです。<br>
+「n進数⇔m進数」変換は未実装です。<br><br>
+
+<table><tr><td>
+<form>
+入力:<input type="text" name="input" size="20" value="" onChange="calc(this.form)">
+@<input type="text" name="baseIn" size="2" value="10" onChange="calc(this.form)" disabled>進<br>
+出力:<input type="text" name="output" size="20" value="">
+@<input type="text" name="baseOut" size="2" value="" onChange="calc(this.form)">進<br>
+<div align="center">
+<INPUT TYPE="button" VALUE="　実行　" onClick="calc(this.form)"><br>
+</div>
+<input type="checkbox" name="alpha" CHECKED onChange="calc(this.form)">36進までは英字を使う
+</form>
+</td></tr></table>
+※数字の表記:<br>
+～36進法 : 0, 1, 2, ..., 9, A, B, C, ..., Z<br>
+37進法～ : /0, /1, /2, .../10, /11, ...<br>
+
+</body>
+</html>

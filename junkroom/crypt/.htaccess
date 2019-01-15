@@ -1,0 +1,10 @@
+AuthUserFile /public_html/pokemon/experiri/crypt/.htpasswd   -----?@ 
+AuthGroupFile /dev/null  
+AuthName "Secret Area"   -----?A 
+AuthType Basic  
+  
+require valid-user  
+  
+<Files ~ "^.(htpasswd|htaccess)$">  
+    deny from all   -----?B 
+</Files> 

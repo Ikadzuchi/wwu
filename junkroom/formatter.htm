@@ -1,0 +1,112 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>Formatter for TYPINGMANIA4 β2</title>
+</head>
+
+<body>
+
+<script language="JavaScript"><!--
+
+function replacecrlf(str){
+	crlf=String.fromCharCode(13,10);
+	cr=String.fromCharCode(13);
+	lf=String.fromCharCode(10);
+	
+	while (str.indexOf(crlf) >= 0){
+		str=str.replace(crlf,lf);
+	}
+	while (str.indexOf(cr) >= 0){
+		str=str.replace(cr,lf);
+	}
+	return str;
+}
+
+function makexml(lyr,rd,itr,name,minute,dif){
+	crlf=String.fromCharCode(13,10);
+	cr=String.fromCharCode(13);
+	lf=String.fromCharCode(10);
+
+	lyr=replacecrlf(lyr);
+	rd=replacecrlf(rd);
+	itr=replacecrlf(itr);
+
+	splitLyric=lyr.split(lf);
+	splitRead=rd.split(lf);
+	splitInter=itr.split(lf);
+	maxNum=splitInter.length;
+	
+	document.write("&lt;?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?&gt;<br />&lt;musicname&gt;"+ name + "&lt/musicname&gt;<br />&lt;saidaimondaisuu&gt;" + maxNum + "&lt;/saidaimondaisuu&gt;<br /><br />");
+	
+	for(i=0;i<splitLyric.length;i++){
+		if(splitLyric[i]==""){
+			splitLyric[i]="@";
+		}
+		document.write("&lt;nihongoword&gt;"+splitLyric[i]+"&lt;/nihongoword&gt;<br />");
+	}
+	document.write("<br />");
+	for(i=0;i<splitRead.length;i++){
+		if(splitRead[i]==""){
+			splitRead[i]="@";
+		}
+		document.write("&lt;word&gt;"+splitRead[i]+"&lt;/word&gt;<br />");
+	}
+	document.write("<br />");
+	if (minute==true){
+		for(i=0;i<splitInter.length;i++){
+			splitInter[i]=Math.floor(splitInter[i]/100000)*60000+splitInter[i]%100000;
+		}
+	}
+	if (dif==true){
+		for(i=splitInter.length-1;i>=1;i--){
+			splitInter[i]-=splitInter[i-1];
+		}
+	}
+
+	for(i=0;i<splitInter.length;i++){
+		document.write("&lt;interval&gt;"+splitInter[i]+"&lt;/interval&gt;<br />");
+	}
+	document.close();
+}
+
+
+//--></script>
+<h1 style="margin : 0">TYPINGMANIA4用 曲XML作成機 β2</h1>
+'07.4/24-28 (c)Ikadzuchi-Squeak, All rights disclaimed.<br /><br />
+<FORM NAME="form1">
+曲名 : <INPUT NAME="songname"><br />
+<TEXTAREA NAME="lyric" ROWS=20 COLS=45>歌詞</TEXTAREA><!-- 横幅の問題で見難い場合はCOLSの値を変えてください -->
+<TEXTAREA NAME="read" ROWS=20 COLS=45>読み</TEXTAREA><!-- 同上 -->
+<TEXTAREA NAME="inter" ROWS=20 COLS=10>時間</TEXTAREA><br />
+<input type="submit" value="作成" onClick="makexml(document.form1.lyric.value,document.form1.read.value,document.form1.inter.value,document.form1.songname.value,document.form1.usemin.checked,document.form1.diff.checked)" />&nbsp;&nbsp;&nbsp;&nbsp;
+<INPUT TYPE="checkbox" NAME="diff" checked>時間差分&nbsp;&nbsp;&nbsp;<INPUT TYPE="checkbox" NAME="usemin" checked>分→秒変換
+</FORM>
+
+<h2>使い方</h2>
+曲名、歌詞、読み、時間を入れて、「作成」を押してください。<br />
+空行は「@」に置き換えられます。<br />
+表示されたものをメモ帳にコピペしてUTF-8保存します。<br />
+<br />
+※「時間差分」をチェックしておくと、曲開始からの経過時間を入れればインターバルを計算してくれます。<br />
+※「分→秒変換」をチェックしておくと、例えば「1234567」を「12分34秒567」と判断します。チェックしないと「1234秒567」です。<br />
+　 SoundEngineを使う場合、両方チェックをつけて、表示された数字を「 : 」「 . 」を抜いてそのまま入れればOKです。<br />
+<br />
+・<a href="http://www.vector.co.jp/soft/winnt/art/se300671.html">OkeTag</a>フォーマット対応版は<a href="formatterOketag.html">こちら</a><br />
+<br />
+更新履歴:<br />
+'07.4/28 改行コードの不具合を解消。<br />
+<br />
+不具合:<br />
+・firefoxだと結果を表示した画面からコピペができないっぽい。ページ保存するか諦めてＩＥを使うか。<br />
+・β1版で「Safari2.0/MacOS10.4.9環境ではタグが一瞬表示されるだけでうまく動かない」との情報あり。<br />
+　Macということで改行コード関連の問題の可能性が高いので、既に直っているかもしれませんがあいにく自分では確認できません。<br />
+<br />
+今後の予定 (予定は未定)<br />
+・今は目的のXMLを表示するHTMLファイルを出力してコピペさせてるけど、直接XMLを出力してページ保存で保存できるようにした方がいいかも。<br />
+<br />
+<b>xfk5hebiq</b>さん(何と読んだものか…)が同様のものを作っていらっしゃるようです。<br />
+<a href="http://arabia.milan.jp/tm/">TypingMania用XML自動生成システム</a><br />
+参考になりますね。いろいろ技術を盗んでみたいと思います。<br />
+</body>
+</html>

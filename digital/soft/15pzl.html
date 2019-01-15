@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=Shift_JIS">
+</head>
+<body>
+<script language="JavaScript">
+hmax=4;
+vmax=4;
+size=30;
+maxrand=1000;
+
+count=0;
+
+board=new Array();
+for(i=0;i<=vmax+1;i++){
+	board[i]=new Array();
+}
+for(i=1;i<=vmax;i++){
+	for(j=1;j<=hmax;j++){
+		board[i][j]=(i-1)*hmax+j;
+	}
+}
+board[vmax][hmax]='X';
+
+function disp(){
+	for(i=1;i<=hmax;i++){
+		for(j=1;j<=vmax;j++){
+			document.getElementById(i+"-"+j).innerHTML=board[j][i];
+		}
+	}
+	document.getElementById("comp").innerHTML=count;
+}
+
+function complete(){
+	for(x=1;x<=hmax;x++){
+		for(y=1;y<=vmax;y++){
+			if(board[y][x]!=(y-1)*hmax+x && (x!=hmax || y!=vmax)){
+				return 0;
+			}
+		}
+	}
+	document.getElementById("comp").innerHTML="count : "+count+"<br /><big><b>COMPLETE!</b></big>";
+}
+
+function move(x, y){
+count++;
+if(board[y-1][x]=='X'){
+	buf=board[y][x];
+	board[y][x]=board[y-1][x];
+	board[y-1][x]=buf;
+	disp();
+	complete();
+}
+else if(board[y+1][x]=='X'){
+	buf=board[y][x];
+	board[y][x]=board[y+1][x];
+	board[y+1][x]=buf;
+	disp();
+	complete();
+}
+else if(board[y][x-1]=='X'){
+	buf=board[y][x];
+	board[y][x]=board[y][x-1];
+	board[y][x-1]=buf;
+	disp();
+	complete();
+}
+else if(board[y][x+1]=='X'){
+	buf=board[y][x];
+	board[y][x]=board[y][x+1];
+	board[y][x+1]=buf;
+	disp();
+	complete();
+}
+else return 0;
+}
+
+function moveWoDisp(x, y){
+if(board[y-1][x]=='X'){
+	buf=board[y][x];
+	board[y][x]=board[y-1][x];
+	board[y-1][x]=buf;
+}
+else if(board[y+1][x]=='X'){
+	buf=board[y][x];
+	board[y][x]=board[y+1][x];
+	board[y+1][x]=buf;
+}
+else if(board[y][x-1]=='X'){
+	buf=board[y][x];
+	board[y][x]=board[y][x-1];
+	board[y][x-1]=buf;
+}
+else if(board[y][x+1]=='X'){
+	buf=board[y][x];
+	board[y][x]=board[y][x+1];
+	board[y][x+1]=buf;
+}
+else return 0;
+}
+
+function shuffle(){
+	for(i=0;i<maxrand;i++){
+		moveWoDisp( Math.ceil(Math.random()*hmax) , Math.ceil(Math.random()*vmax) );
+	}
+	count=0;
+	disp();
+}
+
+document.write("<h1>"+(hmax*vmax-1)+"パズル</h1>");
+document.write("<table border cellpadding=\"0\" cellspacing=\"0\">");
+for (y=1;y<=vmax;y++){
+	document.write("<tr height=\""+size+"\">");
+	for (x=1;x<=hmax;x++){
+		document.write("<td id=\""+x+"-"+y+"\" align=\"center\" width=\""+size+"\" onClick=move("+x+","+y+")><td>");
+	}
+	document.write("</tr>");
+}
+document.write("</table>");
+shuffle();
+disp();
+
+</script>
+<span id="comp">0</span><br />
+<table border>
+<tr><td bgcolor="#ff80b0" onClick=shuffle()>SHUFFLE</td></tr>
+</table>
+</body>
+</html>

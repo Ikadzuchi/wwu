@@ -1,0 +1,309 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>個体値早見表メーカー - WentWayUp</title>
+<STYLE type="text/css"> <!--
+table{border-color : #c0c0c0;
+	border-collapse : collapse;
+	margin : 5px}
+td{border-color : #c0c0c0;
+	padding : 0px 5px 0px 5px;
+	line-height : 90%}
+--></STYLE>
+</head>
+
+<body>
+<h1>個体値早見表メーカー ver. 1.2</h1>
+個体値判定に便利な表を作成します。<br />
+使い方は簡単。目的のポケモンの「種族値」「初期レベル」と、「目標個体値」を入力して実行を押すだけ。<br />
+(他の入力欄はダミーです。気にしないでください。)<br />
+<br />
+出来上がった表の見方を説明します。<br />
+縦軸がレベルアップ、横軸がドーピングの回数を表します。<br />
+中に入っている数字は目標個体値のときのステータスです。<br />
+ここで黒字で書かれている数字は、目標個体値に達していなくてもその数字になる可能性があることを示します。<br />
+赤字は、目標個体値以上のときのみその数字になることを示します。<br />
+性格別に3段に分かれています。上がマイナス性格補正、下がプラス性格補正時の値です。<br />
+<br />
+赤字の所を目指して飴と薬を使って、その数字になれば目標個体値以上であることが確定します。<br />
+<br />
+一番下の表は、各ステータスで赤字のある場所を示します。<br />
+
+<br />
+<!--
+<FORM METHOD="post"><input type="text" name="orderer" size="2" value="2"><input type="text" name="numdisp" size="2" value="-1"><INPUT TYPE="button" VALUE="display" onClick="display(this.form.orderer.value, this.form.numdisp.value)"></FORM>
+<form>
+入力欄<input type="text" size="30" id="input" onChange="calc(this.value)" />
+<input type="button" value="計算" onClick="calc()" />
+</form>
+出力 : <span id="output">a</span>
+-->
+<form method="post">
+性格 : <input type="text" name="in_nature" size="3" disabled="true"> Lv : <input type="text" name="in_lv" size="3"> 目標個体値 : <input type="text" name="in_iv" size="2" value="31"><br />
+
+<table border="0">
+
+<tr><td colspan="2">種族値:</td><td>ステータス:</td></tr>
+<tr><td>HP</td><td><input type="text" name="in_basehp" size="3"></td><td><input type="text" name="in_stathp" size="3" disabled="true"></td></tr>
+<tr><td>攻撃</td><td><input type="text" name="in_baseat" size="3"></td><td><input type="text" name="in_statat" size="3" disabled="true"></td></tr>
+<tr><td>防御</td><td><input type="text" name="in_basedf" size="3"></td><td><input type="text" name="in_statdf" size="3" disabled="true"></td></tr>
+<tr><td>特攻</td><td><input type="text" name="in_basesa" size="3"></td><td><input type="text" name="in_statsa" size="3" disabled="true"></td></tr>
+<tr><td>特防</td><td><input type="text" name="in_basesd" size="3"></td><td><input type="text" name="in_statsd" size="3" disabled="true"></td></tr>
+<tr><td>素早</td><td><input type="text" name="in_basesp" size="3"></td><td><input type="text" name="in_statsp" size="3" disabled="true"></td></tr>
+</table>
+<input type="button" name="submit" value="実行"
+onClick="makelist(
+	this.form.in_nature.value,
+	this.form.in_lv.value,
+	this.form.in_iv.value,
+	this.form.in_basehp.value,
+	this.form.in_baseat.value,
+	this.form.in_basedf.value,
+	this.form.in_basesa.value,
+	this.form.in_basesd.value,
+	this.form.in_basesp.value,
+	this.form.in_stathp.value,
+	this.form.in_statat.value,
+	this.form.in_statdf.value,
+	this.form.in_statsa.value,
+	this.form.in_statsd.value,
+	this.form.in_statsp.value
+	)">
+</form>
+
+<div id="out"></div>
+
+<script language="JavaScript">
+//zub nig 65 173 141 96 138 128 179 //example
+HP=0;
+AT=1;
+DF=2;
+SA=3;
+SD=4;
+SP=5;
+NA=-1;
+MAXLVUP=10;
+
+statuptext=new Array();
+statdntext=new Array();
+statuptext[HP]="";
+statdntext[HP]="";
+statuptext[AT]="いじっぱり ゆうかん やんちゃ さみしがり";
+statdntext[AT]="ひかえめ おくびょう おだやか ずぶとい";
+statuptext[DF]="ずぶとい わんぱく のんき のうてんき";
+statdntext[DF]="さみしがり おっとり せっかち おとなしい";
+statuptext[SA]="ひかえめ れいせい うっかりや おっとり";
+statdntext[SA]="いじっぱり ようき しんちょう わんぱく";
+statuptext[SD]="おだやか しんちょう なまいき おとなしい";
+statdntext[SD]="やんちゃ うっかりや むじゃき のうてんき";
+statuptext[SP]="おくびょう ようき むじゃき せっかち";
+statdntext[SP]="ゆうかん れいせい なまいき のんき";
+
+stat=new Array("HP","攻撃","防御","特攻","特防","素早");
+stat[-1]="なし";
+function makelist(in_nature,in_lv,in_iv,in_basehp,in_baseat,in_basedf,in_basesa,in_basesd,in_basesp,in_stathp,in_statat,in_statdf,in_statsa,in_statsd,in_statsp){
+	in_base=new Array(in_basehp,in_baseat,in_basedf,in_basesa,in_basesd,in_basesp);
+	in_stat=new Array(in_stathp,in_statat,in_statdf,in_statsa,in_statsd,in_statsp);
+	alllist=new Array();
+
+	temp="";
+	for(indstat=0;indstat<6;indstat++){
+		temp+="<table border=\"1\"><tr><td>"+stat[indstat]+"</td>";
+		for(i=0;i<=10;i++){
+			temp+="<td>"+i+"</td>";
+		}
+		temp+="<td rowspan=\""+(MAXLVUP+2)+"\">△"+statuptext[indstat]+"<br /><br />▼"+statdntext[indstat]+"</td></tr>";
+		for(indlv=0;indlv<=MAXLVUP;indlv++){
+			temp+="<tr><td>"+in_lv+"+"+indlv+"</td>"
+			for(inddope=0;inddope<=10;inddope++){
+				temp+="<td>";
+//				curr_nature=1;
+//				if(nature[in_nature].statup==indstat) curr_nature=1.1;
+//				else if(nature[in_nature].statdn==indstat) curr_nature=0.9;
+//				curr_isHp=false;
+//				if(indstat==0)curr_isHP=true;
+//				statlow=fstat(eval(in_lv)+eval(indlv), in_base[indstat], 0+inddope*10, eval(in_iv)-1, curr_nature, curr_isHp);
+//				stathigh=fstat(eval(in_lv)+eval(indlv), in_base[indstat], 0+inddope*10, eval(in_iv), curr_nature, curr_isHp);
+				if(indstat==0){
+					alllist[indlv+"-"+inddope+"-"]="";
+					alllist[indlv+"-"+inddope+"_"]="";
+					alllist[indlv+"-"+inddope+"+"]="";
+				}
+				if(indstat!=0){
+					statlow=fstat(eval(in_lv)+eval(indlv), in_base[indstat], 0+inddope*10, eval(in_iv)-1, 0.9, false);
+					stathigh=fstat(eval(in_lv)+eval(indlv), in_base[indstat], 0+inddope*10, eval(in_iv), 0.9, false);
+					if(statlow==stathigh) temp+=stathigh+"<br />";
+					else {
+						temp+="<font color=\"#ff0000\">"+stathigh+"</font><br />";
+						alllist[indlv+"-"+inddope+"-"]+=stat[indstat];
+					}
+					statlow=fstat(eval(in_lv)+eval(indlv), in_base[indstat], 0+inddope*10, eval(in_iv)-1, 1, false);
+					stathigh=fstat(eval(in_lv)+eval(indlv), in_base[indstat], 0+inddope*10, eval(in_iv), 1, false);
+					if(statlow==stathigh) temp+=stathigh+"<br />";
+					else {
+						temp+="<font color=\"#ff0000\">"+stathigh+"</font><br />";
+						alllist[indlv+"-"+inddope+"_"]+=stat[indstat];
+					}
+					statlow=fstat(eval(in_lv)+eval(indlv), in_base[indstat], 0+inddope*10, eval(in_iv)-1, 1.1, false);
+					stathigh=fstat(eval(in_lv)+eval(indlv), in_base[indstat], 0+inddope*10, eval(in_iv), 1.1, false);
+					if(statlow==stathigh) temp+=stathigh+"<br />";
+					else {
+						temp+="<font color=\"#ff0000\">"+stathigh+"</font><br />";
+						alllist[indlv+"-"+inddope+"+"]+=stat[indstat];
+					}
+				}
+				else{
+					statlow=fstat(eval(in_lv)+eval(indlv), in_base[indstat], 0+inddope*10, eval(in_iv)-1, 1, true);
+					stathigh=fstat(eval(in_lv)+eval(indlv), in_base[indstat], 0+inddope*10, eval(in_iv), 1, true);
+					if(statlow==stathigh) temp+=stathigh+"<br />";
+					else {
+						temp+="<font color=\"#ff0000\">"+stathigh+"</font><br />";
+						alllist[indlv+"-"+inddope+"_"]+=stat[indstat];
+					}
+				}
+				temp+="</td>";
+			}
+			temp+="</tr>"
+		}
+		temp+="</table>";
+	}
+	
+	temp+="<table border=\"1\"><tr><td></td>";
+	for(i=0;i<=10;i++){
+		temp+="<td>"+i+"</td>";
+	}
+	for(indlv=0;indlv<=MAXLVUP;indlv++){
+		temp+="<tr><td>"+indlv+"</td>";
+		for(inddope=0;inddope<=10;inddope++){
+			temp+="<td>"+alllist[indlv+"-"+inddope+"-"]+"<br />"+alllist[indlv+"-"+inddope+"_"]+"<br />"+alllist[indlv+"-"+inddope+"+"]+"</td>";
+		}
+		temp+="</tr>"
+	}
+	temp+="</table>"
+	
+
+	document.getElementById("out").innerHTML=temp+";";
+}
+
+function fstat(lv, base, effort, indiv, nature, isHp){		//forward stat calculater
+	if(isHp==true)
+		return Math.floor((base*2+indiv+Math.floor(effort/4))*lv/100)+10+lv;
+	else
+		return Math.floor((Math.floor((base*2+indiv+Math.floor(effort/4))*lv/100)+5)*nature);
+}
+function maxminchars(lv, bases, nature){
+	out=new Object();
+	temp=""+
+	fstat(lv, bases[HP], 0, 31, nature, 1)+
+	fstat(lv, bases[AT], 0, 31, nature, 0)+
+	fstat(lv, bases[DF], 0, 31, nature, 0)+
+	fstat(lv, bases[SA], 0, 31, nature, 0)+
+	fstat(lv, bases[SD], 0, 31, nature, 0)+
+	fstat(lv, bases[SP], 0, 31, nature, 0);
+	out.max=temp.length;
+	
+	fstat(lv, bases[HP], 0, 0, nature, 1)
+	fstat(lv, bases[AT], 0, 0, nature, 0)
+	fstat(lv, bases[DF], 0, 0, nature, 0)
+	fstat(lv, bases[SA], 0, 0, nature, 0)
+	fstat(lv, bases[SD], 0, 0, nature, 0)
+	fstat(lv, bases[SP], 0, 0, nature, 0)
+	return out;
+}
+function temp(){
+/*
+頭が英字なら
+3文字切りだす
+nature[it]
+3文字切りだす
+chara[it]
+1文字切りだす
+maxminchars
+残り文字数と比較
+input.length
+*/
+}
+function calc(){
+	intext=document.getElemantById("input").form.value;
+	document.getElementById("output").innerHTML=intext+temp;
+	return 0;
+}
+
+nature=new Array();	//性格
+nature["iji"]=new Object; nature["iji"].statup=AT; nature["iji"].statdn=SA; nature["iji"].str="いじっぱり";
+nature["ukk"]=new Object; nature["ukk"].statup=SA; nature["ukk"].statdn=SD; nature["ukk"].str="うっかりや";
+nature["oku"]=new Object; nature["oku"].statup=SP; nature["oku"].statdn=AT; nature["oku"].str="おくびょう";
+nature["oda"]=new Object; nature["oda"].statup=SD; nature["oda"].statdn=AT; nature["oda"].str="おだやか";
+nature["ott"]=new Object; nature["ott"].statup=SA; nature["ott"].statdn=DF; nature["ott"].str="おっとり";
+nature["oto"]=new Object; nature["oto"].statup=SD; nature["oto"].statdn=DF; nature["oto"].str="おとなしい";
+nature["gan"]=new Object; nature["gan"].statup=NA; nature["gan"].statdn=NA; nature["gan"].str="てれや";
+nature["kim"]=new Object; nature["kim"].statup=NA; nature["kim"].statdn=NA; nature["kim"].str="きまぐれ";
+nature["sam"]=new Object; nature["sam"].statup=AT; nature["sam"].statdn=DF; nature["sam"].str="さみしがり";
+nature["shi"]=new Object; nature["shi"].statup=SD; nature["shi"].statdn=SA; nature["shi"].str="しんちょう";
+nature["sin"]=new Object; nature["sin"].statup=SD; nature["sin"].statdn=SA; nature["sin"].str="しんちょう";
+nature["sun"]=new Object; nature["sun"].statup=NA; nature["sun"].statdn=NA; nature["sun"].str="すなお";
+nature["zub"]=new Object; nature["zub"].statup=DF; nature["zub"].statdn=AT; nature["zub"].str="ずぶとい";
+nature["sek"]=new Object; nature["sek"].statup=SP; nature["sek"].statdn=DF; nature["sek"].str="せっかち";
+nature["ter"]=new Object; nature["ter"].statup=NA; nature["ter"].statdn=NA; nature["ter"].str="てれや";
+nature["nam"]=new Object; nature["nam"].statup=SD; nature["nam"].statdn=SP; nature["nam"].str="なまいき";
+nature["nou"]=new Object; nature["nou"].statup=DF; nature["nou"].statdn=SD; nature["nou"].str="のうてんき";
+nature["not"]=new Object; nature["not"].statup=DF; nature["not"].statdn=SD; nature["not"].str="のうてんき";
+nature["non"]=new Object; nature["non"].statup=DF; nature["non"].statdn=SP; nature["non"].str="のんき";
+nature["hik"]=new Object; nature["hik"].statup=SA; nature["hik"].statdn=AT; nature["hik"].str="ひかえめ";
+nature["maj"]=new Object; nature["maj"].statup=NA; nature["maj"].statdn=NA; nature["maj"].str="まじめ";
+nature["muj"]=new Object; nature["muj"].statup=SP; nature["muj"].statdn=SD; nature["muj"].str="むじゃき";
+nature["yan"]=new Object; nature["yan"].statup=AT; nature["yan"].statdn=SD; nature["yan"].str="やんちゃ";
+nature["yuu"]=new Object; nature["yuu"].statup=AT; nature["yuu"].statdn=SP; nature["yuu"].str="ゆうかん";
+nature["yuk"]=new Object; nature["yuk"].statup=AT; nature["yuk"].statdn=SP; nature["yuk"].str="ゆうかん";
+nature["you"]=new Object; nature["you"].statup=SP; nature["you"].statdn=SA; nature["you"].str="ようき";
+nature["yok"]=new Object; nature["yok"].statup=SP; nature["yok"].statdn=SA; nature["yok"].str="ようき";
+nature["rei"]=new Object; nature["rei"].statup=SA; nature["rei"].statdn=SP; nature["rei"].str="れいせい";
+nature["res"]=new Object; nature["res"].statup=SA; nature["res"].statdn=SP; nature["res"].str="れいせい";
+nature["wan"]=new Object; nature["wan"].statup=DF; nature["wan"].statdn=SA; nature["wan"].str="わんぱく";
+
+chara=new Array();	//個性(characteristic)
+chara["aba"]=new Object; chara["aba"].stat=AT; chara["aba"].mod=1; chara["aba"].str="あばれることがすき";//あばれるのがすき?
+chara["ita"]=new Object; chara["ita"].stat=SA; chara["ita"].mod=1; chara["ita"].str="イタズラがすき";
+chara["ine"]=new Object; chara["ine"].stat=HP; chara["ine"].mod=2; chara["ine"].str="いねむりがおおい";
+chara["uta"]=new Object; chara["uta"].stat=DF; chara["uta"].mod=1; chara["uta"].str="うたれづよい";
+chara["otc"]=new Object; chara["otc"].stat=SP; chara["otc"].mod=2; chara["otc"].str="おっちょこちょい";
+chara["kak"]=new Object; chara["kak"].stat=SP; chara["kak"].mod=0; chara["kak"].str="かけっこがすき";
+chara["gam"]=new Object; chara["gam"].stat=DF; chara["gam"].mod=4; chara["gam"].str="がまんづよい";
+chara["kar"]=new Object; chara["kar"].stat=DF; chara["kar"].mod=0; chara["kar"].str="からだがじょうぶ";
+chara["kan"]=new Object; chara["kan"].stat=SA; chara["kan"].mod=3; chara["kan"].str="かんがえごとがおおい";
+chara["kig"]=new Object; chara["kig"].stat=SD; chara["kig"].mod=0; chara["kig"].str="きがつよい";
+chara["ken"]=new Object; chara["ken"].stat=AT; chara["ken"].mod=3; chara["ken"].str="ケンカをするのがすき";
+chara["kou"]=new Object; chara["kou"].stat=SA; chara["kou"].mod=0; chara["kou"].str="こうきしんがつよい";
+chara["shi"]=new Object; chara["shi"].stat=DF; chara["shi"].mod=3; chara["shi"].str="しんぼうづよい";
+chara["tab"]=new Object; chara["tab"].stat=HP; chara["tab"].mod=0; chara["tab"].str="たべるのがだいすき";
+chara["chi"]=new Object; chara["chi"].stat=NA; chara["chi"].str="ちからがじまん/ちのけがおおい";
+chara["tik"]=new Object; chara["tik"].stat=AT; chara["tik"].mod=0; chara["tik"].str="ちからがじまん";
+chara["chk"]=new Object; chara["chk"].stat=AT; chara["chk"].mod=0; chara["chk"].str="ちからがじまん";
+chara["tin"]=new Object; chara["tin"].stat=AT; chara["tin"].mod=4; chara["tin"].str="ちのけがおおい";
+chara["chn"]=new Object; chara["chn"].stat=AT; chara["chn"].mod=4; chara["chn"].str="ちのけがおおい";
+chara["nig"]=new Object; chara["nig"].stat=SP; chara["nig"].mod=4; chara["nig"].str="にげるのがはやい";
+chara["nuk"]=new Object; chara["nuk"].stat=SA; chara["nuk"].mod=2; chara["nuk"].str="ぬけめがない";
+chara["neb"]=new Object; chara["neb"].stat=DF; chara["neb"].mod=2; chara["neb"].str="ねばりづよい";
+chara["non"]=new Object; chara["non"].stat=HP; chara["non"].mod=4; chara["non"].str="のんびりするのがすき";
+chara["hir"]=new Object; chara["hir"].stat=HP; chara["hir"].mod=1; chara["hir"].str="ひるねをよくする";
+chara["mkz"]=new Object; chara["mkz"].stat=SD; chara["mkz"].mod=3; chara["mkz"].str="まけずぎらい";
+chara["mak"]=new Object; chara["mak"].stat=NA; chara["mak"].str="まけずぎらい/まけんきがつよい";
+chara["mkn"]=new Object; chara["mkn"].stat=SD; chara["mkn"].mod=2; chara["mkn"].str="まけんきがつよい";
+chara["mon"]=new Object; chara["mon"].stat=NA; chara["mon"].str="ものおとにびんかん/ものをよくちらかす";
+chara["mno"]=new Object; chara["mno"].stat=SP; chara["mno"].mod=1; chara["mno"].str="ものおとにびんかん";
+chara["mnw"]=new Object; chara["mnw"].stat=HP; chara["mnw"].mod=3; chara["mnw"].str="ものをよくちらかす";
+chara["tot"]=new Object; chara["tot"].stat=SA; chara["tot"].mod=4; chara["tot"].str="とてもきちょうめん";
+chara["kic"]=new Object; chara["kic"].stat=SA; chara["kic"].mod=4; chara["kic"].str="とてもきちょうめん";
+chara["cho"]=new Object; chara["cho"].stat=NA; chara["cho"].str="ちょっぴりみえっぱり/ちょっぴりごうじょう/ちょっとおこりっぽい";
+chara["mie"]=new Object; chara["mie"].stat=SD; chara["mie"].mod=1; chara["mie"].str="ちょっぴりみえっぱり";
+chara["suk"]=new Object; chara["suk"].stat=SP; chara["suk"].mod=3; chara["suk"].str="すこしおちょうしもの";
+chara["och"]=new Object; chara["och"].stat=SP; chara["och"].mod=3; chara["och"].str="すこしおちょうしもの";
+chara["gou"]=new Object; chara["gou"].stat=SD; chara["gou"].mod=4; chara["gou"].str="ちょっぴりごうじょう";
+chara["oko"]=new Object; chara["oko"].stat=AT; chara["oko"].mod=2; chara["oko"].str="ちょっとおこりっぽい";
+
+
+</script>
+
+</body>
+</html>

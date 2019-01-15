@@ -1,0 +1,386 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<meta charset="Shift_JIS">
+	<title>Logical Dotter</title>
+	<style type="text/css">
+	table{
+		empty-cells:show;
+		border-collapse:collapse;
+	}
+	td.u{
+		border-left:1px solid;
+		border-right:1px solid;
+	}
+	td.l{
+		border-top:1px solid;
+		border-bottom:1px solid;
+	}
+	td.i{
+		border:1px solid;
+	}
+	td.b{
+		border:1px solid;
+		background-color:black;
+	}
+	x{
+		visibility:hidden;
+	}
+	</style>
+</head>
+
+<body>
+<h1 style="margin:0px">イラストロジック解答プログラム</h1>
+なんとなく作った、イラストロジック(というかピクロスというかロジックパズルというかののぐらむというかなんかそんなやつ)を解くプログラム。<br>
+<span onClick="showusage()" style="color:blue" id="usageswitch">[解説はここをクリック]</span>
+<div id="usage" style="display:none">
+◆使い方<br>
+書式は、左数字・1行空き・上数字の順で。<br />
+つまり例えば<br>
+<table>
+<tr><td></td><td></td><td class="u"></td><td class="u">1</td><td class="u">1</td><td class="u">1</td><td class="u"></td></tr>
+<tr><td></td><td></td><td class="u">3</td><td class="u">1</td><td class="u">1</td><td class="u">1</td><td class="u">3</td></tr>
+<tr><td class="l"></td><td class="l">1</td><td class="i"><x>■</x></td><td class="i"><x>■</x></td><td class="i"><x>■</x></td><td class="i"><x>■</x></td><td class="i"><x>■</x></td></tr>
+<tr><td class="l">1</td><td class="l">1</td><td class="i"></td><td class="i"></td><td class="i"></td><td class="i"></td><td class="i"></td></tr>
+<tr><td class="l">1</td><td class="l">1</td><td class="i"></td><td class="i"></td><td class="i"></td><td class="i"></td><td class="i"></td></tr>
+<tr><td class="l"></td><td class="l">5</td><td class="i"></td><td class="i"></td><td class="i"></td><td class="i"></td><td class="i"></td></tr>
+<tr><td class="l">1</td><td class="l">1</td><td class="i"></td><td class="i"></td><td class="i"></td><td class="i"></td><td class="i"></td></tr>
+</table>
+なら、<br>
+<table><tr><td class="i" style="padding:0px 10px">
+<tt>1<br>
+1 1<br>
+1 1<br>
+5<br>
+1 1<br>
+<br>
+3<br>
+1 1<br>
+1 1<br>
+1 1<br>
+3</tt>
+</td></tr></table>
+となります。<br>
+<br>
+また、一部のマスが既に決定している場合は、「不明」「白確定」「黒確定」を順に「<tt>.</tt>」「<tt>-</tt>」「<tt>@</tt>」として並べたものを1行空けた後に書いてください。<br>
+つまり、
+<table>
+<tr><td></td><td></td><td class="u"></td><td class="u">1</td><td class="u">1</td><td class="u">1</td><td class="u"></td></tr>
+<tr><td></td><td></td><td class="u">3</td><td class="u">1</td><td class="u">1</td><td class="u">1</td><td class="u">3</td></tr>
+<tr><td class="l"></td><td class="l">1</td><td class="i"><x>■</x></td><td class="i"><x>■</x></td><td class="i"><x>■</x></td><td class="i"><x>■</x></td><td class="i"><x>■</x></td></tr>
+<tr><td class="l">1</td><td class="l">1</td><td class="i"></td><td class="i"></td><td class="i"></td><td class="i"></td><td class="i"></td></tr>
+<tr><td class="l">1</td><td class="l">1</td><td class="i"></td><td class="i">×</td><td class="i">×</td><td class="i">×</td><td class="i"></td></tr>
+<tr><td class="l"></td><td class="l">5</td><td class="i"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="i"></td></tr>
+<tr><td class="l">1</td><td class="l">1</td><td class="i"></td><td class="i"></td><td class="i"></td><td class="i"></td><td class="i"></td></tr>
+</table>
+なら、<br>
+<table><tr><td class="i" style="padding:0px 10px">
+<tt>1<br>
+1 1<br>
+1 1<br>
+5<br>
+1 1<br>
+<br>
+3<br>
+1 1<br>
+1 1<br>
+1 1<br>
+3<br>
+<br>
+.....<br>
+.....<br>
+.---.<br>
+.@@@.<br>
+.....</tt>
+</td></tr></table>
+となります。<br>
+<br>
+◆設定項目<br>
+「難度」は、どれだけ複雑なパターンを解けるかの指標です。<br>
+詳しいことを言うと、内部で列ごとに起こり得るパターン全てを毎回生成している(すごく無駄)のですが、ここで生成するパターン数の上限です。<br>
+これが低いとスカスカな列は無視されます。高くするとそのような列も使うようになりますが、かかる時間が急激に増えます。<br>
+CeleronDualCore2GHz、Firefox3.5で1万くらいで警告が出ました。10万だと数分はかかるかもしれません。<br>
+「繰り返し数」は、一通り列をチェックしてからまた最初からチェックし直す、その回数です。<br>
+10回もあれば大抵の問題が解けるようです。<br>
+こちらは単純に、回数とかかる時間は比例します。たぶん。<br>
+<br>
+◆性能について<br>
+このプログラムで解ける問題は単純な定石で解けるもののみで、黒マスの仮定やそれに類する上級の定石が必要なものは無理です。<br>
+初心者向けなら大抵解けますが、パズル本の懸賞問題のような難問はたぶん無理です。<br>
+また、このプログラムはは尋常じゃなく無駄が多いです。<br>
+そのため、マス目が多くなると無駄に大量のパターンを生成するために時間がかかります。<br>
+実用的なのは30×30程度、1日つけっぱなしにすれば50×50くらいまではいけるかなと思います。<br>
+<br>
+◆今後の予定<br>
+無駄をなくす(重要度 : 低)<br>
+入力を洗練する(重要度 : 低)<br>
+出力を洗練する(重要度 : 非常に低)<br>
+難問に対応する(重要度 : 凄まじく低)<br>
+<br>
+◆ライセンス的なアレ<br>
+権利放棄、義務も放棄。<br>
+なお、エラー処理の類はほとんどしていませんので、変な入力を入れると何が起こるか分かりません。<br>
+というより、まともな入力を入れても何が起こるか保証しません。いわゆるAS ISってやつです。<br>
+<br>
+2009.8/5<br>
+<span onClick="showusage()" style="color:blue">[▲解説を閉じる▲]</span>
+</div>
+
+<form name="f">
+難度 : <input type="text" name="max" value="1000"></input>
+繰り返し数 : <input type="text" name="iter" value="10"></input>
+<br>
+<textarea rows="10" cols="100" name="t"></textarea><br>
+<input type="button" value="実行" onClick="exe(document.f.t.value,document.f.max.value,document.f.iter.value)"></input>
+</form>
+<span id="stdout"></span>
+
+<script language="JavaScript">
+WT="-";
+BK="@";
+NA=".";
+width=0;
+height=0;
+disp="block";
+function showusage(){
+	document.getElementById("usage").style.display=disp;
+	if(disp=="block"){
+		disp="none";
+		document.getElementById("usageswitch").innerHTML="[▲解説を閉じる▲]";
+	}
+	else{
+		disp="block";
+		document.getElementById("usageswitch").innerHTML="[解説はここをクリック]";
+	}
+}
+
+function exe(value,max,iter){
+	temp=value.split("\n\n");
+	lnum=temp[0].split("\n");
+	height=lnum.length;
+	for(i=0;i<height;i++){
+		lnum[i]=lnum[i].split(" ");
+	}
+	tnum=temp[1].split("\n");
+	width=tnum.length;
+	for(i=0;i<width;i++){
+		tnum[i]=tnum[i].split(" ");
+	}
+	field=temp[2];
+	if(field==undefined){
+		field="";
+		for(i=0;i<height*width;i++){
+			field+=NA;
+		}
+	}
+	else{
+		for(i=0;i<height-1;i++)
+			field=field.replace("\n","");
+	}
+	gtemp=" ";
+	for(j=0;j<iter;j++){
+
+	pattern2=[];
+		for(i=0;i<height;i++){
+			temp=readline(0,i);
+			pattern=linedeploy(lnum[i],width,max);
+			pattern=sieve(pattern,temp);
+			writeline(multiand(pattern),0,i);
+		}
+		for(i=0;i<width;i++){
+			temp=readline(1,i);
+			pattern=linedeploy(tnum[i],height,max);
+			pattern=sieve(pattern,temp);
+			writeline(multiand(pattern),1,i);
+		}
+	}
+//	for(i=0;i<width;i++){
+//		gtemp+=pattern2[i]+"<br><br>";//showfield();
+//	}
+	document.getElementById("stdout").innerHTML=showfield();
+}
+function showfield(){
+	var i,j;
+	var ret="<tt>";
+	for(i=0;i<height;i++){
+		for(j=0;j<width;j++){
+			ret+=field.charAt(i*width+j);
+		}
+		ret+="<br>";
+	}
+	ret+="</tt>";
+	return ret;
+}
+
+/*
+function linechk(linenum,linefield){
+	var i;
+	var j=0;
+	for(i=0;i<linenum.length;i++){
+		while(true){
+			if(linefield.charAt(j)=="0")
+				continue;
+			else if()
+		}
+	}
+}
+*/
+function readline(dir,nth){
+	var ret="";
+	var i;
+	if(dir==0){//行
+		for(i=0;i<width;i++){
+			ret+=field.charAt(nth*width+i);
+		}
+	}
+	else{//列
+		for(i=0;i<height;i++){
+			ret+=field.charAt(width*i+nth);
+		}
+	}
+	return ret;
+}
+function writeline(line,dir,nth){
+	var i;
+	if(dir==0){//行
+		for(i=0;i<width;i++){
+			field=field.substring(0,nth*width+i)+line.charAt(i)+field.substring(nth*width+i+1);
+		}
+	}
+	else{//列
+		for(i=0;i<height;i++){
+			field=field.substring(0,width*i+nth)+line.charAt(i)+field.substring(width*i+nth+1);
+		}
+	}
+}
+function linedeploy(linenum,len,maxcases){
+	var sum=-1,i,j;
+	for(i=0;i<linenum.length;i++){
+		sum+=linenum[i]*1+1;
+	}
+	var space=len-sum;
+	var cases=combi(space+linenum.length,linenum.length);
+	if(cases>maxcases)
+		return null;
+	else{
+		var ret=[];
+		var temp="";
+		var spaces=[];
+		var sum=0;
+		var rst;
+		for(i=0;i<linenum.length;i++){
+			spaces[i]=0;
+		}
+		for(k=0;k<cases;k++){
+			temp="";
+			for(i=0;i<linenum.length;i++){
+				for(j=0;j<spaces[i];j++){
+					temp+=WT;
+				}
+				for(j=0;j<linenum[i];j++){
+					temp+=BK;
+				}
+				if(i!=linenum.length-1)
+					temp+=WT;
+				else{
+					rst=space;
+					for(j=0;j<linenum.length;j++){
+						rst-=spaces[j];
+					}
+					for(j=0;j<rst;j++){
+						temp+=WT;
+					}
+				}
+				ret[k]=temp;
+			}
+			for(i=0;i<linenum.length;i++){
+				spaces[i]++;
+				sum=0;
+				for(j=0;j<linenum.length;j++){
+					sum+=spaces[j];
+				}
+				if(sum<=space)
+					break;
+				else{
+					spaces[i]=0;
+				}
+			}
+		}
+		return ret;
+	}
+}
+function combi(n,m){
+	var i;
+	var ret=1;
+	for(i=0;i<m;i++){
+		ret*=n-i;
+	}
+	for(i=0;i<m;i++){
+		ret/=m-i;
+	}
+	return ret;
+}
+function and(line1,line2){
+	var i;
+	var ret="";
+	for(i=0;i<line1.length;i++){
+		if(line1.charAt(i)==BK&&line2.charAt(i)==BK)
+			ret+=BK;
+		else if(line1.charAt(i)==WT&&line2.charAt(i)==WT)
+			ret+=WT;
+		else
+			ret+=NA;
+	}
+	return ret;
+}
+function multiand(lines){
+	if(lines.length==1){
+		return lines[0];
+	}
+	var i,j;
+	var naflag;
+	var ret=lines[0];
+	for(i=1;i<lines.length;i++){
+		naflag=true;
+		ret=and(ret,lines[i]);
+		for(j=0;j<ret.length;j++){
+			if(ret.charAt(j)==BK||ret.charAt(j)==WT){
+				naflag=false;
+				break;
+			}
+		}
+		if(naflag)
+			return ret;
+	}
+	return ret;
+}
+function sieve(pattern,field){
+	var i,j;
+	var ret=[];
+	if(pattern==null){
+		ret[0]=field
+		return ret;
+	}
+	var count=0;
+	var flag;
+	for(i=0;i<pattern.length;i++){
+		flag=true;
+		for(j=0;j<field.length;j++){
+			if((pattern[i].charAt(j)==BK && field.charAt(j)==WT)
+				||(pattern[i].charAt(j)==WT && field.charAt(j)==BK)){
+				flag=false;
+				break;
+			}
+		}
+		if(flag){
+			ret[count]=pattern[i];
+			count++;
+		}
+	}
+	return ret;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>SqPaint Ver.-3 + on root</title>
+<style type=text/css>
+	table{border-collapse:collapse}
+	td{padding:0px;
+		border-width:1px;
+		border-style:solid;
+		border-color:black;
+		empty-cells:show;
+		width:10px;
+		height:10px}
+</style>
+
+</head>
+
+<body onMouseUp="wait()">
+<h1>SqPaint Ver.-3 + on root</h1>
+テスト中。<br />
+長いURLをすこしでも短くしようと置き場所を変えたバージョン。内容は同じ。<br />
+例: <small><a href="http://www.nexyzbb.ne.jp/~ikadzuchi/p.htm?=8gPPIDzzP88zzPMEzmBM5mTOZkzM5MxCTIcEwHhMJ8zOfMznz855.OefznH85j-OZ.k">http://www.nexyzbb.ne.jp/~ikadzuchi/p.htm?=8gPPIDzzP88zzPMEzmBM5mTOZkzM5MxCTIcEwHhMJ8zOfMznz855.OefznH85j-OZ.k</a></small><br /><br />
+<form>
+描画色 : <input type="text" onChange="changeColor(this.value)" value="#000000" />
+<input type="button" value="消" onClick="del()" />
+</form>
+<script language="JavaScript">
+urldata=window.location.search;
+urldata=urldata.substring(2,urldata.length);
+
+xmax=20;
+ymax=20;
+
+readyFlag=0;
+paint=1
+paintColor="#000000";
+
+image = new Array();
+for (i=0;i<xmax+1;i++){
+	image[i] = new Array();
+	for(j=0;j<ymax+1;j++){
+		image[i][j]=1;
+	}
+}
+
+document.writeln("<table>");
+for (j=0;j<ymax;j++){
+	document.writeln("<tr>");
+	for (i=0;i<xmax;i++){
+		document.write("<td onMouseDown=\"ready("+i+","+j+")\" onMouseOver=\"painter("+i+","+j+")\" id=\""+ i + "-"+ j+"\" bgcolor=\"#ffffff\"></td>");
+	}
+	document.writeln("</tr>");
+}
+document.write("</table>");
+
+if(urldata.length>=2){
+	decodePass(urldata);
+}
+
+function painter(x,y){
+	id=""+x+"-"+y;
+	if(readyFlag==1){
+		if(paint==1){
+			document.getElementById(id).style.cssText ='background-color: ' +paintColor;
+			image[x+1][y+1]=0;
+		}
+		else{
+			document.getElementById(id).style.cssText ='background-color: #ffffff';
+			image[x+1][y+1]=1;
+		}
+	}
+}
+function ready(x,y){
+	if(x==-1){
+		readyFlag=1;
+		paint=1;
+	}
+	else{
+		id=""+x+"-"+y;
+		readyFlag=1;
+		if (image[x+1][y+1]==1){
+			paint=1;
+		}
+		else
+			paint=0;
+		painter(x,y);
+	}
+}
+function wait(){
+	readyFlag=0;
+}
+
+function changeColor(color){
+	paintColor=color;
+}
+
+function del(){
+	for (j=0;j<ymax;j++){
+		for (i=0;i<xmax;i++){
+			image[i+1][j+1]=1;
+			id=""+i+"-"+j;
+			document.getElementById(id).style.cssText ='background-color: #ffffff';
+		}
+	}
+}
+
+function paeth(u,l,d){ //upper,left,diagonal
+	if(
+	(u==0&&l==1&&d==0)||
+	(u==1&&l==0&&d==0)||
+	(u==1&&l==1&&d==0)||
+	(u==1&&l==1&&d==1) ){
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
+function calcPass(){
+	passwd=new Array();
+/*
+	for(i=0;i<(ymax*xmax)/6;i++){
+		passwd[i]=0;
+	}
+	k=1;
+	l=0;
+	
+	for(j=1;j<ymax+1;j++){
+		for(i=1;i<xmax+1;i++){
+			passwd[l]+=(image[i][j]*k);
+			k*=2;
+			if(k>=64){
+				k=1;
+				l++;
+			}
+		}
+	}
+*/
+
+l=0;
+	for(j=0;j<ymax;j++){
+		for(i=0;i<xmax;i++){
+			passwd[l]=image[i+1][j+1];
+			l++;
+		}
+	}
+
+	passwd=pack(passwd);
+
+	passwd2="";
+	
+	for(i=0;i<passwd.length;i++){
+		passwd2+=base64(passwd[i]);
+	}
+
+	document.getElementById("pass").innerHTML=passwd2;
+}
+
+function base64(num){
+	digit="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.";
+	return digit.charAt(num);
+}
+
+function deBase64(ch){
+	digit="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.";
+	return digit.indexOf(ch);
+}
+
+function pack(data){
+	packed=new Array();
+	for(i=0;i<data.length/6;i++){
+		packed[i]=0;
+	}
+	k=32;
+	l=0;
+
+	for(i=0;i<data.length;i++){
+		packed[l]+=(data[i]*k);
+		k/=2;
+		if(k<1){
+			k=32;
+			l++;
+		}
+	}
+	
+	return packed;
+}
+
+function unpack(data){
+	unpacked = new Array();
+	j=0;
+	for (i=0;i<data.length;i++){
+		l=32;
+		for (k=0;k<6;k++){
+			if(l<=data[i]){
+				data[i]-=l;
+				unpacked[j]=1;
+			}
+			else{
+				unpacked[j]=0;
+			}
+			j++;
+			l/=2;
+		}
+	}
+	return unpacked;
+}
+
+function decodePass(pass0){
+	data=new Array();
+	if(pass0==0){
+		pass0=document.getElementById("passInput").value;
+	}
+	for(i=0;i<pass0.length;i++){
+		data[i]=deBase64(pass0.charAt(i));
+	}
+	data=unpack(data);
+	
+	i=0;
+	paint=1;
+	readyFlag=1;
+	for(y=0;y<ymax;y++){
+		for (x=0;x<xmax;x++){
+			if (data[i]==0){
+				painter(x,y);
+			}
+			i++;
+		}
+	}
+	paint=0;
+	i=0;
+	for(y=0;y<ymax;y++){
+		for (x=0;x<xmax;x++){
+			if (data[i]==1){
+				painter(x,y);
+			}
+			i++;
+		}
+	}
+	readyFlag=0;
+}
+
+</script>
+<form name="form1">
+<input type="button" value="セーブ" onClick="calcPass()">
+</form>
+パスワード :  <span id="pass" style="background-color:#eeffff">Unknown</span>
+
+<form>
+パスワード入力<input type="text" id="passInput"></input>
+<input type="button" value="ロード" onClick="decodePass(0)"></input>
+</form>
+
+</body>
+</html>

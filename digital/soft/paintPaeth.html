@@ -1,0 +1,377 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title></title>
+<style type=text/css>
+	table{border-collapse:collapse}
+	td.paintbox{padding:0px;
+		border-width:1px;
+		border-style:solid;
+		border-color:black;
+		empty-cells:show;
+		width:10px;
+		height:10px}
+</style>
+
+</head>
+
+<body onMouseUp="wait()">
+<h1>JavaScriptお絵かき</h1>
+使い方は見れば大体分かると思います。<br />
+
+一応説明。
+<ul>
+<li>白い所でクリックすると色が塗られ、白くないところでクリックすると色が消える。</li>
+<li>ドラッグでもOK。</li>
+<li>描画色は上のボックスで指定する。「#FF0000」や「red」などで指定。</li>
+<li>描画色に「white」を指定すると面倒なことになる。</li>
+<li>たまにマウスを放しても描画が続くときはいったんクリックすれば止まる。</li>
+<li>「消」で全消し。</li>
+<li>セーブ機能<br />
+「セーブ」でパスワード表示。どこかにメモっておきましょう<br />
+
+そのパスワードを「パスワード入力」のボックスに入力し「ロード」を押すと絵を復元。<br />
+ただし色情報は失われます。<br />
+</ul>
+
+7/20 新パスワード開発中です。詳しくは下部。<br />
+7/13 IE対応しました。<br />
+<br />
+予告:<br />
+・パスワードを圧縮して短くする<br />
+・URL入力で絵を表示できるようにする→<a href="paint2.html">テスト中</a><br />
+<br />
+
+<form>
+描画色 : <input type="text" onChange="changeColor(this.value)" value="#000000" />
+<input type="button" value="消" onClick="del()" />
+</form>
+<script language="JavaScript">
+xmax=20;
+ymax=20;
+
+readyFlag=0;
+paint=1
+paintColor="#000000";
+
+image = new Array();
+for (i=0;i<xmax+1;i++){
+	image[i] = new Array();
+	for(j=0;j<ymax+1;j++){
+		image[i][j]=1;
+	}
+}
+
+document.writeln("<table>");
+for (j=0;j<ymax;j++){
+	document.writeln("<tr>");
+	for (i=0;i<xmax;i++){
+		document.write("<td class=\"paintbox\" onMouseDown=\"ready("+i+","+j+")\" onMouseOver=\"painter("+i+","+j+")\" id=\""+ i + "-"+ j+"\" bgcolor=\"#ffffff\"></td>");
+	}
+	document.writeln("</tr>");
+}
+document.write("</table>");
+
+function painter(x,y){
+	id=""+x+"-"+y;
+	if(readyFlag==1){
+		if(paint==1){
+			document.getElementById(id).style.cssText ='background-color: ' +paintColor;
+			image[x+1][y+1]=0;
+		}
+		else{
+			document.getElementById(id).style.cssText ='background-color: #ffffff';
+			image[x+1][y+1]=1;
+		}
+	}
+}
+function ready(x,y){
+	if(x==-1){
+		readyFlag=1;
+		paint=1;
+	}
+	else{
+		id=""+x+"-"+y;
+		readyFlag=1;
+		if (image[x+1][y+1]==1){
+			paint=1;
+		}
+		else
+			paint=0;
+		painter(x,y);
+	}
+}
+function wait(){
+	readyFlag=0;
+}
+
+function changeColor(color){
+	paintColor=color;
+}
+
+function del(){
+	for (j=0;j<ymax;j++){
+		for (i=0;i<xmax;i++){
+			image[i+1][j+1]=1;
+			id=""+i+"-"+j;
+			document.getElementById(id).style.cssText ='background-color: #ffffff';
+		}
+	}
+}
+
+function paeth(u,l,d){ //upper,left,diagonal
+	if(
+	(u==0&&l==1&&d==0)||
+	(u==1&&l==0&&d==0)||
+	(u==1&&l==1&&d==0)||
+	(u==1&&l==1&&d==1) ){
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
+function xor(a, b){
+	if((a==1&&b==1)||(a==0&&b==0))
+		return 1;
+	else
+		return 0;
+}
+
+function calcPass(){
+	passwd=new Array();
+/*
+	for(i=0;i<(ymax*xmax)/6;i++){
+		passwd[i]=0;
+	}
+	k=1;
+	l=0;
+	
+	for(j=1;j<ymax+1;j++){
+		for(i=1;i<xmax+1;i++){
+			passwd[l]+=(image[i][j]*k);
+			k*=2;
+			if(k>=64){
+				k=1;
+				l++;
+			}
+		}
+	}
+*/
+
+/*
+	l=0;
+	for(j=0;j<ymax;j++){
+		for(i=0;i<xmax;i++){
+			passwd[l]=image[i+1][j+1];
+			l++;
+		}
+	}
+
+	passwdlzh=lzh(passwd);
+	passwd=pack(passwd);
+*/
+	
+	l=0;
+	for(j=0;j<ymax;j++){
+		for(i=0;i<xmax;i++){
+			passwd[l]=xor(image[i+1][j+1],paeth(image[i][j+1],image[i+1][j],image[i][j]));
+			l++;
+		}
+	}
+	
+	passwdlzh=lzh(passwd);
+	passwd=pack(passwd);
+
+	passwd2="";
+	passwdlzh2="";
+
+	/*
+	for(i=0;i<passwd.length;i++){
+		passwd2+=base64(passwd[i]);
+	}
+	for(i=0;i<passwdlzh.length;i++){
+		passwdlzh2+=(passwdlzh[i]+".");
+	}*/
+	
+	for(i=0;i<passwd.length;i++){
+		passwd2+=base64(passwd[i]);
+	}
+	for(i=0;i<passwdlzh.length;i++){
+		passwdlzh2+=(passwdlzh[i]+".");
+	}
+	
+	passwdlzh2+="("+passwdlzh.length+"桁)";
+
+	document.getElementById("pass").innerHTML=passwd2;
+	document.getElementById("pass2").innerHTML=passwdlzh2;
+}
+
+function base64(num){
+	digit="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.";
+	return digit.charAt(num);
+}
+
+function deBase64(ch){
+	digit="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.";
+	return digit.indexOf(ch);
+}
+
+function pack(data){
+	packed=new Array();
+	for(i=0;i<data.length/6;i++){
+		packed[i]=0;
+	}
+	k=32;
+	l=0;
+
+	for(i=0;i<data.length;i++){
+		packed[l]+=(data[i]*k);
+		k/=2;
+		if(k<1){
+			k=32;
+			l++;
+		}
+	}
+	
+	return packed;
+}
+
+function unpack(data){
+	unpacked = new Array();
+	j=0;
+	for (i=0;i<data.length;i++){
+		l=32;
+		for (k=0;k<6;k++){
+			if(l<=data[i]){
+				data[i]-=l;
+				unpacked[j]=1;
+			}
+			else{
+				unpacked[j]=0;
+			}
+			j++;
+			l/=2;
+		}
+	}
+	return unpacked;
+}
+
+function decodePass(){
+	data=new Array();
+	pass0=document.getElementById("passInput").value;
+	for(i=0;i<pass0.length;i++){
+		data[i]=deBase64(pass0.charAt(i));
+	}
+	data=unpack(data);
+	
+	i=0;
+	paint=1;
+	readyFlag=1;
+	for(y=0;y<ymax;y++){
+		for (x=0;x<xmax;x++){
+			if (data[i]==0){
+				painter(x,y);
+			}
+			i++;
+		}
+	}
+	paint=0;
+	i=0;
+	for(y=0;y<ymax;y++){
+		for (x=0;x<xmax;x++){
+			if (data[i]==1){
+				painter(x,y);
+			}
+			i++;
+		}
+	}
+	readyFlag=0;
+}
+
+function lzh(img){
+	var tree = new Array;
+	tree["0"]=0;
+	tree["1"]=1;
+	num=2;
+	curr="";
+	out=new Array;
+	j=0;
+	flag=0;
+	
+	for(i=0;i<img.length;i++){
+	
+		if(img[i]==0){
+			if(tree[curr+"0"]==undefined){
+				out[j]=tree[curr];
+				tree[curr+"0"]=num;
+				num++;
+				i--;
+				j++;
+				curr="";
+			}
+			else{
+				curr=curr+"0";
+			}
+		}
+		else if(img[i]==1){
+			if(tree[curr+"1"]==undefined){
+				out[j]=tree[curr];
+				tree[curr+"1"]=num;
+				num++;
+				i--;
+				j++;
+				curr="";
+			}
+			else{
+				curr=curr+"1";
+			}
+		}
+	}
+	out[j]=tree[curr];
+
+	i=0;
+	return out;
+}
+
+</script>
+<form name="form1">
+<input type="button" value="セーブ" onClick="calcPass()">
+</form>
+パスワード :  <span id="pass" style="background-color:#eeffff">Unknown</span><br>
+新パスワード(Ver. -3.0) :  <span id="pass2" style="background-color:#eeeeee">Unknown</span>
+
+<form>
+パスワード入力<input type="text" id="passInput"></input>
+
+<input type="button" value="ロード" onClick="decodePass()"></input>
+</form>
+
+
+<h2>新パスワード予告</h2>
+画像圧縮をしてパスワードを短くする方法を模索中。<br />
+ちなみに今のパスワードは67字固定。10字くらいは減らしたい。<br />
+今は数字そのままなので全然短くなっていませんが、文字に変換すれば短く…なってないなあまり。<br />
+これからの予定はこんな感じ。<br />
+<table><tr>
+<td>Ver. -3.0 (済)</td>
+<td> : lzh</td>
+</td><tr>
+<td>Ver. -2.0</td>
+<td> : lzh→6bitパック</td>
+</td><tr>
+<td>Ver. -1.0</td>
+<td> : lzh→6bitパック→base64</td>
+</td><tr>
+<td>Ver. 0.0</td>
+<td> : paeth→lzh→6bitパック→base64</td>
+</td><tr>
+<td>Ver. 1.0</td>
+<td> : paeth→lzh改→6bitパック→base64 (Ver0の上位互換)
+</td></table>
+なお出力するだけでまだ読めません。Ver0ができたら読み込みも作る予定。<br />
+
+</body>
+</html>

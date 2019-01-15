@@ -1,0 +1,109 @@
+<h2>画像形式について。</h2>
+書きたいことはたくさんあるがどうもうまくまとまらない…。<br><br>
+PCで扱える画像データには次のようなものがある<br>
+BMP<br>
+GIF<br>
+PNG<br>
+JPG<br>
+ベクタ画像<br>
+それぞれ長所短所があるのだが、これらをきちんと使い分けている人がどれだけいるだろうか。<br>
+<br>
+なお、画像の話をする時「サイズ」がファイルサイズのことか画像の大きさのことか非常に紛らわしくて困る。<br>
+ここではファイルサイズを「サイズ」、画像の大きさのことを「大きさ」と呼んで区別する。<br>
+<br>
+<a href="bmp.html">BMP</a><br>
+windows標準の非圧縮形式。Macにも同様の形式あり。<br>
+非圧縮ゆえ画像の劣化はないが、途轍もなく重い。これを使うなら可逆圧縮のPNGにした方が劣化もなくサイズも小さくてすむので、使う機会はないといっていいだろう。<br>
+あえて言えば開く時に解凍作業がないのでPCの作業量が減るという利点がある。デスクトップの壁紙はBMPにすればPCの速度が微妙に上がるかもしれない。<br>
+…と思ったが、そもそも展開しているから変わらない気もする。<br>
+<br>
+GIF<br>
+256色が使える可逆圧縮形式。勘違いしている人がたまにいるがこの256色とは同時発色数のこと。<br>
+決められた256色だけしか使えないのではなく、フルカラー16777216色の中から自由に選んだ256色が使える。<br>
+ただし、windowsのペイントで保存したGIF画像は固定された216色のみになる。ペイントでGIF保存は避けよう。<br>
+216色というのは赤青緑各色6階調で6<sup>3</sup>=216。
+webセーフカラーと呼ばれるもので、旧式の256色環境でも正常に表示される色である。下図。<br>
+<table border=1>
+<tr><td>緑↓　青→</td><td>赤=0</td><td>51</td><td>102</td><td>153</td><td>204</td><td>255</td></tr>
+<tr>
+<td>0→→→→255青<br>
+↓
+<br>↓<br>↓<br>↓<br>255緑
+</td>
+<td>
+<font color="#000000">■</font><font color="#000033">■</font><font color="#000066">■</font><font color="#000099">■</font><font color="#0000cc">■</font><font color="#0000ff">■</font><br>
+<font color="#003300">■</font><font color="#003333">■</font><font color="#003366">■</font><font color="#003399">■</font><font color="#0033cc">■</font><font color="#0033ff">■</font><br>
+<font color="#006600">■</font><font color="#006633">■</font><font color="#006666">■</font><font color="#006699">■</font><font color="#0066cc">■</font><font color="#0066ff">■</font><br>
+<font color="#009900">■</font><font color="#009933">■</font><font color="#009966">■</font><font color="#009999">■</font><font color="#0099cc">■</font><font color="#0099ff">■</font><br>
+<font color="#00cc00">■</font><font color="#00cc33">■</font><font color="#00cc66">■</font><font color="#00cc99">■</font><font color="#00cccc">■</font><font color="#00ccff">■</font><br>
+<font color="#00ff00">■</font><font color="#00ff33">■</font><font color="#00ff66">■</font><font color="#00ff99">■</font><font color="#00ffcc">■</font><font color="#00ffff">■</font><br>
+</td>
+<td>
+<font color="#330000">■</font><font color="#330033">■</font><font color="#330066">■</font><font color="#330099">■</font><font color="#3300cc">■</font><font color="#3300ff">■</font><br>
+<font color="#333300">■</font><font color="#333333">■</font><font color="#333366">■</font><font color="#333399">■</font><font color="#3333cc">■</font><font color="#3333ff">■</font><br>
+<font color="#336600">■</font><font color="#336633">■</font><font color="#336666">■</font><font color="#336699">■</font><font color="#3366cc">■</font><font color="#3366ff">■</font><br>
+<font color="#339900">■</font><font color="#339933">■</font><font color="#339966">■</font><font color="#339999">■</font><font color="#3399cc">■</font><font color="#3399ff">■</font><br>
+<font color="#33cc00">■</font><font color="#33cc33">■</font><font color="#33cc66">■</font><font color="#33cc99">■</font><font color="#33cccc">■</font><font color="#33ccff">■</font><br>
+<font color="#33ff00">■</font><font color="#33ff33">■</font><font color="#33ff66">■</font><font color="#33ff99">■</font><font color="#33ffcc">■</font><font color="#33ffff">■</font><br>
+</td>
+
+<td>
+<font color="#660000">■</font><font color="#660033">■</font><font color="#660066">■</font><font color="#660099">■</font><font color="#6600cc">■</font><font color="#6600ff">■</font><br>
+<font color="#663300">■</font><font color="#663333">■</font><font color="#663366">■</font><font color="#663399">■</font><font color="#6633cc">■</font><font color="#6633ff">■</font><br>
+<font color="#666600">■</font><font color="#666633">■</font><font color="#666666">■</font><font color="#666699">■</font><font color="#6666cc">■</font><font color="#6666ff">■</font><br>
+<font color="#669900">■</font><font color="#669933">■</font><font color="#669966">■</font><font color="#669999">■</font><font color="#6699cc">■</font><font color="#6699ff">■</font><br>
+<font color="#66cc00">■</font><font color="#66cc33">■</font><font color="#66cc66">■</font><font color="#66cc99">■</font><font color="#66cccc">■</font><font color="#66ccff">■</font><br>
+<font color="#66ff00">■</font><font color="#66ff33">■</font><font color="#66ff66">■</font><font color="#66ff99">■</font><font color="#66ffcc">■</font><font color="#66ffff">■</font><br>
+</td>
+
+<td>
+<font color="#990000">■</font><font color="#990033">■</font><font color="#990066">■</font><font color="#990099">■</font><font color="#9900cc">■</font><font color="#9900ff">■</font><br>
+<font color="#993300">■</font><font color="#993333">■</font><font color="#993366">■</font><font color="#993399">■</font><font color="#9933cc">■</font><font color="#9933ff">■</font><br>
+<font color="#996600">■</font><font color="#996633">■</font><font color="#996666">■</font><font color="#996699">■</font><font color="#9966cc">■</font><font color="#9966ff">■</font><br>
+<font color="#999900">■</font><font color="#999933">■</font><font color="#999966">■</font><font color="#999999">■</font><font color="#9999cc">■</font><font color="#9999ff">■</font><br>
+<font color="#99cc00">■</font><font color="#99cc33">■</font><font color="#99cc66">■</font><font color="#99cc99">■</font><font color="#99cccc">■</font><font color="#99ccff">■</font><br>
+<font color="#99ff00">■</font><font color="#99ff33">■</font><font color="#99ff66">■</font><font color="#99ff99">■</font><font color="#99ffcc">■</font><font color="#99ffff">■</font><br>
+</td>
+
+<td>
+<font color="#cc0000">■</font><font color="#cc0033">■</font><font color="#cc0066">■</font><font color="#cc0099">■</font><font color="#cc00cc">■</font><font color="#cc00ff">■</font><br>
+<font color="#cc3300">■</font><font color="#cc3333">■</font><font color="#cc3366">■</font><font color="#cc3399">■</font><font color="#cc33cc">■</font><font color="#cc33ff">■</font><br>
+<font color="#cc6600">■</font><font color="#cc6633">■</font><font color="#cc6666">■</font><font color="#cc6699">■</font><font color="#cc66cc">■</font><font color="#cc66ff">■</font><br>
+<font color="#cc9900">■</font><font color="#cc9933">■</font><font color="#cc9966">■</font><font color="#cc9999">■</font><font color="#cc99cc">■</font><font color="#cc99ff">■</font><br>
+<font color="#cccc00">■</font><font color="#cccc33">■</font><font color="#cccc66">■</font><font color="#cccc99">■</font><font color="#cccccc">■</font><font color="#ccccff">■</font><br>
+<font color="#ccff00">■</font><font color="#ccff33">■</font><font color="#ccff66">■</font><font color="#ccff99">■</font><font color="#ccffcc">■</font><font color="#ccffff">■</font><br>
+</td>
+
+<td>
+<font color="#ff0000">■</font><font color="#ff0033">■</font><font color="#ff0066">■</font><font color="#ff0099">■</font><font color="#ff00cc">■</font><font color="#ff00ff">■</font><br>
+<font color="#ff3300">■</font><font color="#ff3333">■</font><font color="#ff3366">■</font><font color="#ff3399">■</font><font color="#ff33cc">■</font><font color="#ff33ff">■</font><br>
+<font color="#ff6600">■</font><font color="#ff6633">■</font><font color="#ff6666">■</font><font color="#ff6699">■</font><font color="#ff66cc">■</font><font color="#ff66ff">■</font><br>
+<font color="#ff9900">■</font><font color="#ff9933">■</font><font color="#ff9966">■</font><font color="#ff9999">■</font><font color="#ff99cc">■</font><font color="#ff99ff">■</font><br>
+<font color="#ffcc00">■</font><font color="#ffcc33">■</font><font color="#ffcc66">■</font><font color="#ffcc99">■</font><font color="#ffcccc">■</font><font color="#ffccff">■</font><br>
+<font color="#ffff00">■</font><font color="#ffff33">■</font><font color="#ffff66">■</font><font color="#ffff99">■</font><font color="#ffffcc">■</font><font color="#ffffff">■</font><br>
+</td>
+</tr></table>
+古くからweb上で使えたが、今は同時発色数・圧縮率ともに優れたPNG形式があるため使う機会はあまり多くない。<br>
+アニメーションGIFのためにあるといっても過言ではない。<br>
+<br>
+PNG<br>
+フルカラー(16777216色)使える可逆圧縮形式。仕様としてはさらに多くの色も使えるが現在16777216色以上を表示できる環境は普通ないため中間ファイルとして使う以外に色数が問題になることはない。<br>
+web上で劣化のない静止画像を見せようとしたらこれ。GIFより後発だが現在ほとんどのブラウザがPNGをサポートしているため問題はないだろう。<br>
+透過画像はGIF以上の性能。アルファチャンネルによる半透明の表現(IE非対応)の他に、あまり知られていないが(管理人も知らなかった。)IEでも表示できる1色透過も可能。<br>
+<br>
+<a href="jpeg.html">JPEG</a>(Joint Photographic Experts Group)<br>
+ジェイペグ。拡張子は通常jpg。フルカラー非可逆圧縮形式。<br>
+photographicの名のとおり写真の保存に向く。中間色のグラデーションがあるとPNGではサイズが大きくなってしまうので、これにするのがよい。<br>
+<br>
+ベクタ画像<br>
+上4つが「ラスタ画像」であるのに対し「ベクタ画像」というものがある。<br>
+ラスタ画像は小さな点の集まりで絵を表示するので解像度によっては荒い画像になる。ベクタ画像には解像度の概念がなく、直線・曲線の集まりで絵を表現する。<br>
+利点としてはどんなに拡大しても劣化がないこと、ファイルサイズがラスタ画像に対して小さいことがあり、
+欠点は複雑な絵は書けないこと、表示にマシンパワーを使うことがある。<br>
+また、web上で表示するにはflashにする以外ないのも欠点である。<br>
+現在あまりメジャーとは言えないが、将来的に画像(動画)形式の主流になるのは間違いないと思われる。<br>
+自然画像をベクタ形式に変換できればサイズがjpgとは比べものにならないほど小さく出来るはずである。<br>
+あと10年もすればラスタ→ベクタ変換が実用レベルになって、ベクタ動画形式もでてくるだろう。<br>
+そんなことを心に思う2005年9月11日。<br>
+<br>
+以下にサイズを小さくするコツ、劣化しやすい条件など書く予定。<br>

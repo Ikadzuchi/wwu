@@ -1,0 +1,93 @@
+<h1>画像</h1>
+このページではPC上の画像形式について初心者向けにごく簡単な説明をしています。<br />
+この説明で飽き足らないあなたにはこちらの<a href="index.htm">専門的な説明</a>をどうぞ。(まだ製作中だけど)
+<br />
+<br />
+<br />
+PC上で扱える画像は主に以下の4種類がある。<br />
+・BMP (ビットマップ)<br />
+・GIF (ジフ・ギフ)<br />
+・PNG (ピング)<br />
+・JPG (ジェイペグ)<br />
+それぞれ長所短所があるが、これらがきちんと使い分けられているかというとはなはだ疑問である。<br />
+ここでは各形式の特徴と適切な使用方法を解説する。<br /><br />
+なお、画像の話をする時「サイズ」がファイルサイズのことか画像の大きさのことか非常に紛らわしくて困る。<br />
+ここではファイルサイズを「サイズ」、画像の大きさのことを「大きさ」と呼んで区別する。<br />
+また、サイズが大きいことを「重い」と表現する。<br />
+<br />
+◆bmp<br />
+画像を圧縮せずそのまま記録した、非常に簡単な形式。<br />
+非圧縮のため非常に重く、またweb上では見られない場合があるため使うべきでない。<br />
+WindowsXPになってペイントですらjpg,gif,pngを保存できるようになったので、もはや使う機会はないだろう。<br />
+<table cellpadding="10">
+<tr><td valign="top" width="350">
+<img src="photo.bmp" alt="bmp"><br />
+【図1】bmp形式の画像<br />
+この大きさで192kBもある。下の圧縮形式と比べてみて欲しい。<br />
+<small>サイズ比較:||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</small>
+</td></tr>
+</table>
+<br />
+◆jpg<br />
+画質の劣化はあるが非常に圧縮率の高い形式。圧縮率を自由に選べるのも特長。<br />
+特に風景写真などの自然画像に向く。<br />
+逆に向かないのは線のきっちりしたアイコンやイラストなど。線の縁が汚くなってしまう。これらにはpngがお勧め。<br />
+<table cellpadding="10">
+<tr><td valign="top" width="350">
+<img src="photo.jpg" alt="jpgに向く画像"><br />
+【図2】jpgに向く画像<br />
+目立った劣化も無く、サイズはたったの9.9kB。<br />
+<small>サイズ比較:|||</small>
+</td><td valign="top" width="350" cellpadding="10">
+<img src="cartoon.jpg" alt="jpgに向かない画像"><br />
+【図3】jpgに向かない画像<br />
+線の縁の部分でモヤのようににじんでいるのが分かるだろう。サイズは18kB。<br />
+<small>サイズ比較:|||||</small>
+</td></tr>
+</table>
+<br />
+◆png<br />
+画質の劣化のない(可逆)圧縮形式。gifにあらゆる点で勝っている。<br />
+一部の古いブラウザでは表示できないとたまに言われるが、いまどきそんなブラウザはまずないので安心してよい。<br />
+jpgの苦手とするアイコンやイラストでは時としてjpg以上の圧縮率を誇る。<br />
+写真などのグラデーションのかかった画像ではサイズが非常に大きくなってしまうため、よほどの理由がない限りjpgを使うべき。<br />
+<table cellpadding="10">
+<tr><td valign="top" width="350" cellpadding="10">
+<img src="cartoon.png" alt="pngに向く画像"><br />
+【図4】pngに向く画像<br />
+図3と同じものだが、こちらの方が縁がくっきりとしている。これで10.1kB。<br />
+<small>サイズ比較:|||</small>
+</td><td valign="top" width="350" cellpadding="10">
+<img src="photo.png" alt="pngに向かない画像"><br />
+【図5】pngに向かない画像<br />
+図2と同じもの。見た目の違いはほとんど無いのに97.4kBものサイズ。<br />
+<small>サイズ比較:|||||||||||||||||||||||||||||</small>
+</td></tr>
+</table>
+<br />
+◆gif<br />
+pngと似た性質を持つが、全ての面でpngに劣る形式。<br />
+ただし、gif保存時には自動で256色への減色がなされるため、pngで減色のやり方が分からない人には便利かもしれない。<br />
+またgifでは任意の1色を透過することができる。pngでもできるのだがやり方が少々複雑なので、透過の為にgifを使うのもありだろう。
+ここでは扱わないが、gifアニメができるのも特長である(pngではmngという別形式でアニメーションができるが対応ブラウザがほぼ無い)。<br />
+<table cellpadding="10">
+<tr><td valign="top" width="350" cellpadding="10">
+<img src="cartoon.gif" alt="gifに向く画像"><br />
+【図6】gifに向く画像<br />
+図4と同じもの。サイズは12kBと、pngよりやや大きい。<br />
+<small>サイズ比較:||||</small>
+</td><td valign="top" width="350" cellpadding="10">
+<img src="photo.gif" alt="gifに向かない画像"><br />
+【図7】gifに向かない画像<br />
+図5と同じものだが、256色制限のため各所にディザ(斑点)が見える。サイズは42.8kB。<br />
+<small>サイズ比較:|||||||||||||</small>
+</td></tr><tr><td valign="top" background="bg.png" width="350" cellpadding="10">
+<img src="trans.gif" alt="透過gif"><br />
+【図8】透過gif<br />
+絵の一部分を透過して背景が見える。
+</td><td valign="top" background="bg.png" width="350" cellpadding="10">
+<img src="trans.png" alt="透過png"><br />
+【図9】透過png<br />
+あまり知られていないがpngでも全く同じことが可能である。
+</td></tr>
+</table>

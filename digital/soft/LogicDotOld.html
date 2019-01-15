@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>ロジックパズル</title>
+</head>
+<body></body>
+
+<script language="JavaScript"><!--
+
+a=new Array("black", "white", "black");
+b=new Array("black", "white", "black");
+c=new Array("black", "black", "white");
+board = new Array(a, b, c);
+
+function display (board, size){
+	pxsize=400/size;
+	if(pxsize<1)
+	pxsize=1;
+	document.write("<table cellspacing=\"0\" cellpadding=\"0\">");
+	for(i=0;i<size;i++){
+		document.write("<tr height=\"" + pxsize + "\">");
+		for(j=0;j<size;j++){
+			document.write("<td width=\"" + pxsize + "\" bgcolor=" + board[i][j] + "></td>");
+			
+		}
+		document.write("</tr>");
+		}
+	document.write("</table>");
+}
+
+function disp(a){
+}
+
+function read(text){
+	block=text.split("\n");
+	colrow= new Array();
+	for(i=0;i<block.length;i++){
+		colrow[i]=block[i].split(".");
+		for (j=0;j<colrow[i].length;j++){
+			colrow[i][j]=parseInt(colrow[i][j]);
+		}
+	}
+	return colrow;
+}
+
+function test(text){
+	elem=read(text);
+	len=elem.length;
+	document.write(len + ")<br>");
+	for(i=0;i<len;i++){
+		len2=elem[i].length;
+		for(j=0;j<len2;j++){
+			document.write("[" + elem[i][j] + "]");
+		}
+		document.write("<br>");
+	}
+}
+
+// --></script>
+
+<form name="f1">
+<textarea name="input" rows="5" value="abcd" ></textarea>
+<INPUT TYPE="button" VALUE="　実行　" onClick="test(window.document.f1.input.value)">
+</form>
+
+1.1
+1.1
+1.5.1.1
+1.1.1.1.1.1
+1.1.1.1.1
+1.1.1.2
+1.1.1.1.1
+1.12
+1.1.1.1
+1.1.1.2
+2.1.1.1.1
+1.1.1.1.1.1
+1.5.1.1
+1.1
+1.1
+
+1.1.1
+1.1.1
+1
+11
+1.1.1
+11
+1.1.1
+11
+1
+15
+1.1.1
+1.1.1
+2.1.2
+2.1.2
+1
+
+//
+111
+111
+1
+.11
+111
+.11
+111
+.11
+1
+.15
+111
+111
+212
+212
+1
+</html>

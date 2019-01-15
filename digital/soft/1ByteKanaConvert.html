@@ -1,0 +1,50 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>1バイトカナ変換機</title>
+</head>
+
+<body>
+
+<h1>1バイトカナ変換機 ver:0.1</h1>
+使い方 :<br>
+下のテキストボックスに変換したい文字列をひらがな(*)で入力し、実行ボタンを押す。<br>
+出てきた文字列を拙作の1バイトカナフォントで表示すると目的の文字に見える。<br>
+対応フォントは現在のところ「5x5Hiragana」のみ。<br>
+<br>
+*「ゔ」は「ヴ」でも可。記号類は全半角どちらも可。<br>
+<br>
+<form name="fm">
+<input type="textbox" name="wd">
+<input type="button" value="実行" onClick="calc()">
+</form>
+変換結果 :<br>
+<span id="stdout"></span><br>
+<br>
+<script language="JavaScript">
+kanatable="ぬふあうえおやゆよわほへたていすかんなにらせ゛゜ちとしはきくまのりれけむつさそひこみもねるめろっぶぁぅぇぉゃゅょぼべーだでぃずがゔ～！ゎぜ（）ぢどじばぎぐぱ？ゐゑげぷづざぞびごぴぽ、。ぺを!?()ヴ";
+asciitable="1234567890-^qwertyuiop@[asdfghjkl;:]zxcvbnm,./\\!\"#$%&'()=~|QWERTYUIOP`{ASDFGHJKL+*}ZXCVBNM<>?_IK`{Y";
+
+function calc(){
+	temp="";
+	ch="";
+	wd=""+document.fm.wd.value;
+	for(i=0;i<wd.length;i++){
+		ch=asciitable.charAt(kanatable.indexOf(wd.charAt(i)));
+		if(ch=="<")
+			temp+="&lt;";
+		else if(ch==">")
+			temp+="&gt;";
+		else if(ch=="&")
+			temp+="&amp;";
+		else
+			temp+=ch;
+	}
+	document.getElementById("stdout").innerHTML=temp;
+}
+
+</script>
+
+</body>
+</html>

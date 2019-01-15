@@ -1,0 +1,36 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<title>JavaScriptフォント表示機</title>
+</head>
+<body>
+<h1>JavaScriptフォント表示機</h1>
+使い方 :
+任意の文字列(現在ひらがなとカタカナのみ対応)を入れ、実行。
+<form name="f">
+<textarea rows="10" cols="100" name="t"></textarea><br>
+<input type="button" value="実行" onClick="show(document.f.t.value)"></input>
+</form>
+<span id="stdout"></span>
+<script language="JavaScript">
+width=6;
+height=6;
+function show(text){
+	temp='<table cellpadding="0" cellspacing="0"><tr>';
+	for(i=0;i<text.length;i++){
+		code=text.charCodeAt(i);
+		if(code=="10")
+			temp+="</tr><tr>";
+		else{
+			code-="ぁ".charCodeAt(0)-1;
+			codey=Math.floor(code/16);
+			codex=code%16;
+			temp+='<td><div style="overflow:hidden;position:relative;width:'+width+'px;height:'+height+'px"><img src="kana.png" style="position:absolute;top:-'+codey*height+';left:-'+codex*width+'px;"></div></td>';
+		}
+	}
+	temp+="</tr></table>"
+	document.getElementById("stdout").innerHTML=temp;
+}
+</script>
+</body>
+</html>

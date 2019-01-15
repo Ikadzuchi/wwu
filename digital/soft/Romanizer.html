@@ -1,0 +1,102 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>Multilingual Romanizer</title>
+</head>
+
+<body>
+<h1>世界諸言語翻字機 Ver.1</h1>
+異国の文字で書かれた意味不明な文章を、意味は分からないまでも読み方だけはおぼろげながら分かるようにする機械。<br>
+さしあたってギリシャ文字・キリル文字・ヘブライ文字・アラビア文字をいいかげんに実装。<br>
+あまりチェックしていないので間違っている可能性が多分にある。<br>
+
+<form name="f">
+<textarea name="stdin" rows="10" cols="60"></textarea><br>
+<!-- <input type="button" value="debug" OnClick="exe(-1)"></input> -->
+<input type="button" value="実行" OnClick="exe(0)"></input>
+</form>
+翻字結果 :<br>
+<span id="stdout">-----</span>
+<script language="JavaScript">
+ch="";
+ptr=0;
+exotic="";
+roman="";
+exotic+="ΑΒΓΔΕΖΗΙΚΛΜΝΞΟΠΡΣΤΥΩ";
+roman +="ABGDEZĒIKLMNXOPRSTYŌ";
+exotic+="αβγδεζηικλμνξοπρσςτυω";
+roman +="abgdezēiklmnxoprsstyō";
+exotic+="абвгдзийклмнопрстуфэ";
+roman +="abvgdzijklmnoprstufe";
+exotic+="АБВГДЗИЙКЛМНОПРСТУФЭ";
+roman +="ABVGDZIJKLMNOPRSTUFE";
+exotic+="ابتثجحخدذرزسشصضطظعغفقکلمنهویء";
+roman +="ābtṯǧḥẖdḏrzsšṣḍṭẓ‘ġfqklmnhwy’";
+exotic+="۰۱۲۳۴۵۶۷۸۹";
+roman +="0123456789";
+exotic+="אבגדהוזטיכךלמםנןסעפףקרת";
+roman+="'bgdhvztykklmmnns‘ppqrt";
+
+exotic2="";
+roman2="";
+exotic2+="Θ^Φ^Χ^Ψ^θ^φ^χ^ψ^";
+roman2 +="THPHCHPSthphchps";
+exotic2+="е^ё^ж^х^ц^ч^ш^щ^^ъ^ыью^я^";
+roman2 +="yeyozhkhtschshssh''y'yuya";
+exotic2+="ח^צ^ץ^ש^";
+roman2+="khtstssh";
+
+function exe(type){
+	temp="";
+	input=document.f.stdin.value;
+	if(type==-1){
+		for(i=0;i<input.length;i++){
+			temp+=input.charAt(i);
+		}
+	}
+	else if(type==0){
+		for(i=0;i<input.length;i++){
+			ptr=exotic.indexOf(input.charAt(i))
+			if(ptr!=-1)
+				ch=roman.charAt(ptr);
+			else{
+				ptr=exotic2.indexOf(input.charAt(i));
+				if(ptr==-1)
+					ch=input.charAt(i);
+				else{
+					ch=roman2.charAt(ptr)
+					for(j=1;;j++){
+						if(exotic2.charAt(ptr+j)=="^"){
+							ch+=roman2.charAt(ptr+j);
+						}
+						else
+							break;
+					}
+				}
+			}
+			temp+=ch;
+		}
+	}
+	document.getElementById("stdout").innerHTML=temp;
+}
+</script>
+<br><br>
+◆今後の予定<br>
+ラテンアルファベットに一意に変換できる文字は実装する方針。<br>
+めぼしいところでタイ文字とかデーヴァナーガリーあたりか。<br>
+あとアクセント付き文字やマイナーな文字も実装したい。<br>
+ハングルは扱いが難しいので実装するかどうか未定。<br>
+不規則な発音は、面倒なので実装しない。<br>
+例<br>
+<table border>
+<tr><td>原語</td><td>単純翻字</td><td>正しい翻字</td></tr>
+<tr><td>Αγγελ</td><td>Aggel</td><td>Angel</td></tr>
+<tr><td>сегодня</td><td>syegodnya</td><td>syevodnya</td></tr>
+</table>
+◆更新履歴<br>
+4/16 Ver.1。ヘブライ文字とアラビア文字を実装。まあこれくらいあれば世界諸言語って言っていいかな。<br>
+4/15 β版。ギリシャ文字・キリル文字実装。<br>
+
+</body>
+</html>

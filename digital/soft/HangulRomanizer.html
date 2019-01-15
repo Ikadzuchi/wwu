@@ -1,0 +1,109 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>Hangul Romanizer</title>
+</head>
+
+<body>
+<h1>ハングル翻字機 ver.1.0</h1>
+
+使い方:<br>
+ハングルを入力し、実行を押す。<br>
+解説は<a href="http://wentwayup.tamaliver.jp/e68443.html">こちら</a><br>
+<form name="f">
+<textarea name="stdin" rows="10" cols="60"></textarea><br>
+<!-- <input type="button" value="debug" OnClick="exe(-1)"></input> -->
+<input type="button" value="実行" OnClick="exe()"></input>
+</form>
+翻字結果 :<br>
+<span id="stdout">-----</span>
+<script language="JavaScript">
+ch="";
+ptr=0;
+ftable=["K","Kk","N","T","Tt","R","M","P","Pp","S","Ss","","Ch","Tch","Ch'","K'","T'","P'","H"];
+ftableVoiced=["G","Kk","N","D","Tt","R","M","B","Pp","S","Ss","","J","Tch","Ch'","K'","T'","P'","H"];
+ftableL=["G","Kk","N","D","Tt","L","M","B","Pp","S","Ss","","J","Tch","Ch'","K'","T'","P'","H"];
+mtable=["a","æ","ya","yæ","ŏ","e","yŏ","ye","o","wa","wæ","ø","yo","u","wŏ","we","wi","yu","ŭ","ŭi","i"];
+mtableCap=["A","Æ","Ya","Yæ","Ŏ","E","Yŏ","Ye","O","Wa","Wæ","Ø","Yo","U","Wŏ","We","Wi","Yu","Ŭ","Ŭi","I"];
+etable=["","k","kk","ks","n","nch","nh","t","l","lk","lm","lp","ls","lt'","lp'","lh","m","p","ps","s","ss","ŋ","ch","ch'","k'","t'","p'","h"];
+etableVoiced=["","g","kk","ks","n","nch","nh","d","r","lg","lm","lb","ls","lt'","lp'","lh","m","b","ps","s","ss","ŋ","j","ch'","k'","t'","p'","h"];
+flen=ftable.length;
+mlen=mtable.length;
+elen=etable.length;
+ka=("가".charCodeAt(0));
+hih=("힣".charCodeAt(0));
+
+function exe(){
+	temp="";
+	first="";
+	middle="";
+	end="";
+	lastendcode=-1;
+	code=0;
+	ecode=0;
+	mcode=0;
+	fcode=0;
+	input=document.f.stdin.value;
+
+	for(i=0;i<input.length;i++){
+		code=input.charCodeAt(i);
+		if(code>=ka && code<=hih){
+			code-=ka;
+			ecode=code%elen;
+			code=Math.floor(code/elen);
+			mcode=code;
+			code=Math.floor(code/mlen);
+			fcode=code;
+			if(isEVoiced(etable[lastendcode])=="L")
+				first=ftableL[fcode]
+			else if(isEVoiced(etable[lastendcode]))
+				first=ftableVoiced[fcode]
+			else
+				first=ftable[fcode];
+			
+			if(lastendcode!=-1){
+				if(isFVoiced(first))
+					temp+=etableVoiced[lastendcode];
+				else
+					temp+=etable[lastendcode];
+			}
+
+			if(first=="")
+				middle=mtableCap[mcode%mlen];
+			else
+				middle=mtable[mcode%mlen];
+
+			temp+=first+middle;
+			lastendcode=ecode;
+		}
+		else{
+		if(lastendcode!=-1)
+			temp+=etable[lastendcode]
+		lastendcode=-1;
+		if(code==10)
+			temp+="<br>";
+		else
+			temp+=input.charAt(i)
+		}
+	}
+
+	document.getElementById("stdout").innerHTML=temp;
+}
+function isEVoiced(e){
+	if(e=="l")
+		return "L";
+	else if(e==""||e=="n"||e=="m"||e=="ŋ")
+		return true;
+	else
+		return false;
+}
+function isFVoiced(f){
+	if(f=="N"||f=="R"||f=="M"||f=="")
+		return true;
+	else
+		return false;
+}
+</script>
+</body>
+</html>
